@@ -20,8 +20,11 @@ public class RenderEngine extends Thread{
 
     public void run(){
         System.out.println("Started the rendering engine!");
-        renderPanel.repaint();
-        waitSomeTime();
+        while(true){
+            renderPanel.repaint();
+            waitSomeTime();
+        }
+
     }
 
     private void waitSomeTime() {

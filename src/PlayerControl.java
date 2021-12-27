@@ -1,37 +1,31 @@
 import EngineCore.Component;
+import EngineCore.Transform;
 import InputInterface.Input;
-import InputInterface.Key;
+import InputInterface.KeyCode;
+import ScarMath.Vector3D;
 
 public class PlayerControl extends Component {
 
 
     @Override
     public void update(double dt) {
-        if(Input.getKeyPressed(Key.W)){
-           // System.out.println("PRESSING:W");
+        if(     Input.getKeyDown(KeyCode.W) ||
+                Input.getKeyDown(KeyCode.S) ||
+                Input.getKeyDown(KeyCode.A) ||
+                Input.getKeyDown(KeyCode.D) ||
+                Input.getKeyDown(KeyCode.ARROW_DOWN)    ||
+                Input.getKeyDown(KeyCode.ARROW_UP)      ||
+                Input.getKeyDown(KeyCode.ARROW_RIGHT)   ||
+                Input.getKeyDown(KeyCode.ARROW_LEFT)
+        ){
+            double horizontal   = Input.getAxis(KeyCode.AXIS_HORIZONTAL);
+            double vertical     = Input.getAxis(KeyCode.AXIS_VERTICAL);
+            double scale        = 5;
+            gameObject.getComponent(Transform.class).position.add(new Vector3D(horizontal*scale, -vertical*scale));
+            //System.out.println("MOVE TO RIGHT! "+gameObject.getComponent(Transform.class).position);
         }
 
-        if(Input.getKeyReleased(Key.W)){
-            System.out.println("RELEASE: W");
-        }
-
-        if(Input.getKeyDown(Key.W)){
-            System.out.println("DAŁN:> W");
-        }
 
 
-
-
-        if(Input.getKeyPressed(Key.Q)){
-            //System.out.println("PRESSING:Q");
-        }
-
-        if(Input.getKeyReleased(Key.Q)){
-            System.out.println("RELEASE: Q");
-        }
-
-        if(Input.getKeyDown(Key.Q)){
-            System.out.println("DAŁN:> Q");
-        }
     }
 }

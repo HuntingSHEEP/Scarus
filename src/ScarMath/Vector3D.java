@@ -16,4 +16,14 @@ public class Vector3D {
         this.y = y;
         this.z = 0f;
     }
+
+    public String toString(){
+        return "V3D: ["+x+", "+y+", "+z+"]";
+    }
+
+    public void add(Vector3D vector3D) {
+        this.x += vector3D.x;
+        this.y += vector3D.y;
+        this.z += vector3D.z;
+    }
 }

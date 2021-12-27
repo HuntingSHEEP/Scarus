@@ -7,26 +7,29 @@ import java.awt.*;
 public class MeshRenderer extends Component{
     public Mesh mesh;
     private Color color;
+    private Stroke stroke;
 
-    public MeshRenderer(Mesh mesh, Color color){
-        this.mesh   = mesh;
-        this.color  = color;
+    public MeshRenderer(Mesh mesh, Color color, float lineWidth){
+        this.mesh    = mesh;
+        this.color   = color;
+        this.stroke  = new BasicStroke(lineWidth);
     }
-
 
     @Override
     public void update(double dt) {
-
     }
 
     public Polygon getPolygon() {
         int[] xPoly = new int[mesh.vertices.size()];
         int[] yPoly = new int[mesh.vertices.size()];
 
+        Vector3D position = gameObject.getComponent(Transform.class).position;
+        //System.out.println("POSITION >> "+position);
+
         for(int i=0; i<mesh.vertices.size(); i++){
             Vector3D v = mesh.vertices.get(i);
-            xPoly[i] = (int) (v.x + gameObject.getComponent(Transform.class).position.x);
-            yPoly[i] = (int) (v.y + gameObject.getComponent(Transform.class).position.y);
+            xPoly[i] = (int) (v.x + position.x);
+            yPoly[i] = (int) (v.y + position.y);
         }
 
         return new Polygon(xPoly, yPoly, xPoly.length);
@@ -35,4 +38,5 @@ public class MeshRenderer extends Component{
     public Color getColor() {
         return color;
     }
+    public Stroke getStroke() { return stroke;}
 }
