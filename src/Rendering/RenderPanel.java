@@ -2,11 +2,14 @@ package Rendering;
 
 import EngineCore.GameObject;
 import EngineCore.MeshRenderer;
+import InputInterface.Input;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class RenderPanel extends JPanel {
+public class RenderPanel extends JPanel implements KeyListener {
     private Scene scene;
     public RenderPanel(Scene scene){
         super();
@@ -14,6 +17,7 @@ public class RenderPanel extends JPanel {
         setBackground(new Color(44, 52, 52));
         setLayout(null);
         setFocusable(true);
+        addKeyListener(this);
 
         this.scene = scene;
     }
@@ -29,7 +33,6 @@ public class RenderPanel extends JPanel {
         g.drawLine(200, 200, 400, 200);
         g.drawLine(200, 200, 200, 400);
 
-
         for(GameObject gameObject : scene.getGameObjectList()){
             MeshRenderer meshRenderer = gameObject.getComponent(MeshRenderer.class);
 
@@ -42,5 +45,24 @@ public class RenderPanel extends JPanel {
     private void renderMesh(Graphics g, MeshRenderer meshRenderer) {
         g.setColor(meshRenderer.getColor());
         g.drawPolygon(meshRenderer.getPolygon());
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        //System.out.println("DOWN: " + e.getKeyChar()+"  //KOD>> "+e.getKeyCode());
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        //System.out.println("pressed: " + e.getKeyChar()+"  //KOD>> "+e.getKeyCode());
+        Input.setKeyPressed(e.getKeyCode());
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        //System.out.println("released: "+e.getKeyChar()+"  //KOD>> "+e.getKeyCode()+"\n-------------------");
+        Input.setKeyReleased(e.getKeyCode());
     }
 }
