@@ -15,10 +15,11 @@ import java.util.Scanner;
 public class Test {
     public static void main(String[] args){
         GameObject go = new GameObject("Pochodnia");
-        go.addComponent(new Transform(new Vector3D(400,100),5));
+        go.addComponent(new Transform(new Vector3D(400,600),5));
         go.addComponent(new MeshRenderer(Mesh.QUAD, Color.CYAN, 3f));
+        go.addComponent(new LinearDynamics(new Vector3D(), new Vector3D()));
         go.addComponent(new PlayerControl());
-        go.addComponent(new LinearDynamics(new Vector3D(20,0), new Vector3D()));
+
 
         Scene scene = new Scene();
         scene.addGameObject(go);

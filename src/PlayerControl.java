@@ -1,31 +1,45 @@
 import EngineCore.Component;
+import EngineCore.GameObject;
+import EngineCore.LinearDynamics;
 import EngineCore.Transform;
 import InputInterface.Input;
 import InputInterface.KeyCode;
 import ScarMath.Vector3D;
 
 public class PlayerControl extends Component {
+    int accValue;
+    Vector3D objectAcceleration;
+
+    @Override
+    public void awake() {
+        accValue = 3;
+        objectAcceleration = gameObject.getComponent(LinearDynamics.class).acceleration;
+    }
 
     @Override
     public void update(double dt) {
-        if(     Input.getKeyDown(KeyCode.W) ||
-                Input.getKeyDown(KeyCode.S) ||
-                Input.getKeyDown(KeyCode.A) ||
-                Input.getKeyDown(KeyCode.D) ||
-                Input.getKeyDown(KeyCode.ARROW_DOWN)    ||
-                Input.getKeyDown(KeyCode.ARROW_UP)      ||
-                Input.getKeyDown(KeyCode.ARROW_RIGHT)   ||
-                Input.getKeyDown(KeyCode.ARROW_LEFT)
-        ){
-            double horizontal   = Input.getAxis(KeyCode.AXIS_HORIZONTAL);
-            double vertical     = Input.getAxis(KeyCode.AXIS_VERTICAL);
-            double scale        = 5;
-            gameObject.getComponent(Transform.class).position.add(new Vector3D(horizontal*scale, -vertical*scale));
-            //System.out.println("MOVE TO RIGHT! "+gameObject.getComponent(Transform.class).position);
-        }
-        //System.out.println("POCHODNIA POSITION: " + gameObject.getComponent(Transform.class).position);
+        manageWSAD();
+    }
 
+    private void manageWSAD() {
+        if(Input.getKeyDown(KeyCode.W))
+            objectAcceleration.add(new Vector3D(0, -accValue));
+        if(Input.getKeyReleased(KeyCode.W))
+            objectAcceleration.add(new Vector3D(0, accValue));
 
+        if(Input.getKeyDown(KeyCode.S))
+            objectAcceleration.add(new Vector3D(0, accValue));
+        if(Input.getKeyReleased(KeyCode.S))
+            objectAcceleration.add(new Vector3D(0, -accValue));
 
+        if(Input.getKeyDown(KeyCode.A))
+            objectAcceleration.add(new Vector3D(-accValue, 0));
+        if(Input.getKeyReleased(KeyCode.A))
+            objectAcceleration.add(new Vector3D(accValue, 0));
+
+        if(Input.getKeyDown(KeyCode.D))
+            objectAcceleration.add(new Vector3D(accValue, 0));
+        if(Input.getKeyReleased(KeyCode.D))
+            objectAcceleration.add(new Vector3D(-accValue, 0));
     }
 }

@@ -13,17 +13,27 @@ public class ScarusEngine extends Thread{
     }
 
     public void run(){
+        awake();
+
         while(true){
             startTime();
+
             updateStep();
             linearDynamicsStep();
 
             stopTime();
         }
-
     }
 
+
+
     ////////////////  STEPS SECTION  //////////////////////////////////
+    private void awake() {
+        for(GameObject gameObject : scene.getGameObjectList())
+            for(Component component : gameObject.getComponentList())
+                component.awake();
+    }
+
     private void updateStep() {
         for(GameObject gameObject : scene.getGameObjectList())
             for(Component component : gameObject.getComponentList())
@@ -62,7 +72,7 @@ public class ScarusEngine extends Thread{
     private long start;
     private void stopTime() {
         deltaTime = System.nanoTime() - start;
-        deltaTime /= 1000000000;
+        deltaTime /= 100000000; //UWAGA - ODJĄŁEM JEDNO ZERO
     }
 
     private void startTime() {

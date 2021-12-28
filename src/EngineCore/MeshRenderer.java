@@ -16,6 +16,10 @@ public class MeshRenderer extends Component{
     }
 
     @Override
+    public void awake() {
+    }
+
+    @Override
     public void update(double dt) {
     }
 
