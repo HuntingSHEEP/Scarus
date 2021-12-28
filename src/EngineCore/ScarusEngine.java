@@ -20,11 +20,35 @@ public class ScarusEngine extends Thread{
 
             updateStep();
             linearDynamicsStep();
+            angularDynamicsStep();
 
             stopTime();
         }
     }
 
+    private void angularDynamicsStep() {
+        for(GameObject gameObject : scene.getGameObjectList()){
+            Transform transform = gameObject.getComponent(Transform.class);
+            AngularDynamics angularDynamics = gameObject.getComponent(AngularDynamics.class);
+
+            if(angularDynamics != null){
+                double alpha = angularDynamics.angularAcceleration;
+                double omega = angularDynamics.angularVelocity;
+
+                //ZMIANA KĄTA FI
+                double dFI = omega*deltaTime + (alpha/2)*deltaTime*deltaTime;
+
+                //ZMIANA PRĘDKOŚCI KĄTOWEJ
+                double dOmega = alpha*deltaTime;
+
+                //AKTUALIZACJA KĄTA FI
+                transform.rotation += dFI;
+
+                //AKTUALIZACJA PRĘKOŚCI KĄTOWEJ
+                angularDynamics.angularVelocity += dOmega;
+            }
+        }
+    }
 
 
     ////////////////  STEPS SECTION  //////////////////////////////////

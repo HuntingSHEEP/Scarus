@@ -1,8 +1,13 @@
 package EngineCore;
 
+import ScarMath.SMath;
 import ScarMath.Vector3D;
 
 import java.awt.*;
+import java.util.ArrayList;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MeshRenderer extends Component{
     public Mesh mesh;
@@ -28,10 +33,16 @@ public class MeshRenderer extends Component{
         int[] yPoly = new int[mesh.vertices.size()];
 
         Vector3D position = gameObject.getComponent(Transform.class).position;
-        //System.out.println("POSITION >> "+position);
+        double   rotation = gameObject.getComponent(Transform.class).rotation;
 
-        for(int i=0; i<mesh.vertices.size(); i++){
-            Vector3D v = mesh.vertices.get(i);
+        //FIRST ROTATE THE MESH
+        List<Vector3D> rotatedVertices = new ArrayList<>();
+        for(Vector3D vertice : mesh.vertices)
+            rotatedVertices.add(SMath.rotatePoint(vertice, new Vector3D(0,0, 1), rotation));
+
+        //THEN PLACE THE MESH IN THE CORRECT POSITION
+        for(int i=0; i<rotatedVertices.size(); i++){
+            Vector3D v = rotatedVertices.get(i);
             xPoly[i] = (int) (v.x + position.x);
             yPoly[i] = (int) (v.y + position.y);
         }
