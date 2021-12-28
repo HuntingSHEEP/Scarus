@@ -6,7 +6,6 @@ import ScarMath.Vector3D;
 
 public class PlayerControl extends Component {
 
-
     @Override
     public void update(double dt) {
         if(     Input.getKeyDown(KeyCode.W) ||
@@ -24,6 +23,7 @@ public class PlayerControl extends Component {
             gameObject.getComponent(Transform.class).position.add(new Vector3D(horizontal*scale, -vertical*scale));
             //System.out.println("MOVE TO RIGHT! "+gameObject.getComponent(Transform.class).position);
         }
+        //System.out.println("POCHODNIA POSITION: " + gameObject.getComponent(Transform.class).position);
 
 
 
