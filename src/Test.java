@@ -21,7 +21,7 @@ public class Test {
         go.addComponent(new Transform(new Vector3D(400,200), 2*SMath.pi/8,5));
         go.addComponent(new MeshRenderer(Mesh.QUAD, Color.CYAN, 3f));
         go.addComponent(new LinearDynamics());
-        go.addComponent(new AngularDynamics(0.07f, 0));
+        go.addComponent(new AngularDynamics(0, 0));
 
         Scene scene = new Scene();
         scene.addGameObject(go);

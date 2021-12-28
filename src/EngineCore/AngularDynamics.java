@@ -1,7 +1,5 @@
 package EngineCore;
 
-import ScarMath.Vector3D;
-
 public class AngularDynamics extends Component {
     public double angularVelocity;
     public double angularAcceleration;
