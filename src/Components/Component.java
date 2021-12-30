@@ -1,4 +1,6 @@
-package EngineCore;
+package Components;
+
+import EngineCore.GameObject;
 
 public abstract class Component {
     public GameObject gameObject;

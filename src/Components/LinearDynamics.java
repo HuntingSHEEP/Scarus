@@ -1,8 +1,9 @@
-package EngineCore;
+package Components;
 
+import Components.Component;
 import ScarMath.Vector3D;
 
-public class LinearDynamics extends Component{
+public class LinearDynamics extends Component {
     public Vector3D velocity;
     public Vector3D acceleration;
 

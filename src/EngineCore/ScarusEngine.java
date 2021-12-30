@@ -1,5 +1,9 @@
 package EngineCore;
 
+import Components.AngularDynamics;
+import Components.Component;
+import Components.LinearDynamics;
+import Components.Transform;
 import Rendering.Scene;
 import ScarMath.Vector3D;
 
@@ -26,32 +30,8 @@ public class ScarusEngine extends Thread{
         }
     }
 
-    private void angularDynamicsStep() {
-        for(GameObject gameObject : scene.getGameObjectList()){
-            Transform transform = gameObject.getComponent(Transform.class);
-            AngularDynamics angularDynamics = gameObject.getComponent(AngularDynamics.class);
 
-            if(angularDynamics != null){
-                double alpha = angularDynamics.angularAcceleration;
-                double omega = angularDynamics.angularVelocity;
-
-                //ZMIANA KĄTA FI
-                double dFI = omega*deltaTime + (alpha/2)*deltaTime*deltaTime;
-
-                //ZMIANA PRĘDKOŚCI KĄTOWEJ
-                double dOmega = alpha*deltaTime;
-
-                //AKTUALIZACJA KĄTA FI
-                transform.rotation += dFI;
-
-                //AKTUALIZACJA PRĘKOŚCI KĄTOWEJ
-                angularDynamics.angularVelocity += dOmega;
-            }
-        }
-    }
-
-
-    ////////////////  STEPS SECTION  //////////////////////////////////
+    //////////////////////////////  STEPS SECTION  //////////////////////////////////
     private void awake() {
         for(GameObject gameObject : scene.getGameObjectList())
             for(Component component : gameObject.getComponentList())
@@ -92,7 +72,31 @@ public class ScarusEngine extends Thread{
         }
     }
 
-    ///////////////  TIME SECTION  ////////////////////////////////////
+    private void angularDynamicsStep() {
+        for(GameObject gameObject : scene.getGameObjectList()){
+            Transform transform = gameObject.getComponent(Transform.class);
+            AngularDynamics angularDynamics = gameObject.getComponent(AngularDynamics.class);
+
+            if(angularDynamics != null){
+                double alpha = angularDynamics.angularAcceleration;
+                double omega = angularDynamics.angularVelocity;
+
+                //ZMIANA KĄTA FI
+                double dFI = omega*deltaTime + (alpha/2)*deltaTime*deltaTime;
+
+                //ZMIANA PRĘDKOŚCI KĄTOWEJ
+                double dOmega = alpha*deltaTime;
+
+                //AKTUALIZACJA KĄTA FI
+                transform.rotation += dFI;
+
+                //AKTUALIZACJA PRĘKOŚCI KĄTOWEJ
+                angularDynamics.angularVelocity += dOmega;
+            }
+        }
+    }
+
+    //////////////////////////////  TIME SECTION  ////////////////////////////////////
     private long start;
     private void stopTime() {
         deltaTime = System.nanoTime() - start;

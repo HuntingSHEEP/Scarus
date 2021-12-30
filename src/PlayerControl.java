@@ -1,6 +1,6 @@
-import EngineCore.AngularDynamics;
-import EngineCore.Component;
-import EngineCore.LinearDynamics;
+import Components.AngularDynamics;
+import Components.Component;
+import Components.LinearDynamics;
 import InputInterface.Input;
 import InputInterface.KeyCode;
 import ScarMath.Vector3D;

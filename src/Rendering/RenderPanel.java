@@ -1,7 +1,7 @@
 package Rendering;
 
 import EngineCore.GameObject;
-import EngineCore.MeshRenderer;
+import Components.MeshRenderer;
 import InputInterface.Input;
 
 import javax.swing.*;

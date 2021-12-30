@@ -1,4 +1,6 @@
-package EngineCore;
+package Components;
+
+import Components.Component;
 
 public class AngularDynamics extends Component {
     public double angularVelocity;

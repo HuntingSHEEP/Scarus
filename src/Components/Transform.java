@@ -1,5 +1,6 @@
-package EngineCore;
+package Components;
 
+import Components.Component;
 import ScarMath.Vector3D;
 
 public class Transform extends Component {

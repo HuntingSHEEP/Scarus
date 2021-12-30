@@ -1,12 +1,11 @@
-package EngineCore;
+package Components;
 
 import ScarMath.Vector3D;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Mesh {
-
+public class Mesh{
     public List<Vector3D> vertices;
 
     public Mesh(){
@@ -26,5 +25,6 @@ public class Mesh {
             new Vector3D(-50,50)}));
 
     public static Mesh QUAD = new Mesh(vQUAD);
+
 
 }

@@ -1,4 +1,4 @@
-package EngineCore;
+package Components;
 
 import ScarMath.SMath;
 import ScarMath.Vector3D;
@@ -6,22 +6,21 @@ import ScarMath.Vector3D;
 import java.awt.*;
 import java.util.ArrayList;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class MeshRenderer extends Component{
+public class MeshRenderer extends Component {
     public Mesh mesh;
     private Color color;
     private Stroke stroke;
 
-    public MeshRenderer(Mesh mesh, Color color, float lineWidth){
-        this.mesh    = mesh;
+    public MeshRenderer(Color color, float lineWidth){
         this.color   = color;
         this.stroke  = new BasicStroke(lineWidth);
     }
 
     @Override
     public void awake() {
+        this.mesh = gameObject.getComponent(MeshFilter.class).mesh;
     }
 
     @Override
