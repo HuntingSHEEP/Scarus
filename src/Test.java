@@ -24,18 +24,36 @@ public class Test {
         go.addComponent(new MeshFilter(Mesh.QUAD));
         go.addComponent(new LinearDynamics(new Vector3D(), new Vector3D(0,0)));
         go.addComponent(new AngularDynamics(0, 0));
-        go.addComponent(new Rigidbody(new PhysicMaterial(0,0,0)));
+        //go.addComponent(new Rigidbody(new PhysicMaterial(0,0,0)));
+/*
+        GameObject go12 = new GameObject("pochodnia");
+        go12.addComponent(new Transform(new Vector3D(100,311), 0,5));
+        go12.addComponent(new LinearDynamics());
+        go12.addComponent(new AngularDynamics(0, 0));
+        go12.addComponent(new MeshFilter(Mesh.QUAD));
+        go12.addComponent(new MeshRenderer(Color.ORANGE, 1f));
+        go12.addComponent(new Rigidbody(new PhysicMaterial(0,0,0)));
+
+        GameObject go123 = new GameObject("pochodnia");
+        go123.addComponent(new Transform(new Vector3D(500,311), 0,5));
+        go123.addComponent(new LinearDynamics());
+        go123.addComponent(new AngularDynamics(0, 0));
+        go123.addComponent(new MeshFilter(Mesh.QUAD));
+        go123.addComponent(new MeshRenderer(Color.ORANGE, 1f));
+        go123.addComponent(new Rigidbody(new PhysicMaterial(0,0,0)));
+
+scene.addGameObject(go12);
+        scene.addGameObject(go123);
+ */
 
         Scene scene = new Scene();
         scene.addGameObject(go);
         scene.addGameObject(go1);
 
-        RenderEngine renderEngine = new RenderEngine(scene);
         ScarusEngine scarusEngine = new ScarusEngine(scene);
+        RenderEngine renderEngine = new RenderEngine(scene);
 
-
-
-        renderEngine.start();
         scarusEngine.start();
+        renderEngine.start();
     }
 }

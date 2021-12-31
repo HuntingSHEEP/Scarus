@@ -2,10 +2,7 @@ package EngineCore;
 
 import Colliders.Collider;
 import Colliders.Collision;
-import Components.AngularDynamics;
-import Components.Component;
-import Components.LinearDynamics;
-import Components.Transform;
+import Components.*;
 import Rendering.Scene;
 import ScarMath.Vector3D;
 
@@ -15,6 +12,7 @@ import java.util.List;
 public class ScarusEngine extends Thread{
     Scene scene;
     double deltaTime;
+    private List<Collision> collisionList;
 
     public ScarusEngine(Scene scene) {
         this.scene = scene;
@@ -30,59 +28,62 @@ public class ScarusEngine extends Thread{
             STEP_UPDATE();
             STEP_LINEAR_DYNAMICS();
             STEP_ANGULAR_DYNAMICS();
-            STEP_COLLISIONS();
+            STEP_COLLISION_DETECTION();
+            STEP_COLLISION_RESOLUTION();
 
             stopTime();
         }
     }
 
-    private void STEP_COLLISIONS() {
-        //WYZNACZENIE UNIKALNYCH PAR OBIEKTÓW
+    private void STEP_COLLISION_RESOLUTION() {
+        for(Collision collision : collisionList)
+            if(collision.aCollider.resolveCollision && collision.bCollider.resolveCollision){
+                moveObjectsApart(collision);
+                collision = findContactPoint(collision);
 
-        for(int g=0; g<scene.getGameObjectList().size(); g++)
-            for(int h=g+1; h<scene.getGameObjectList().size(); h++){
-                GameObject A = scene.getGameObjectList().get(g);
-                GameObject B = scene.getGameObjectList().get(h);
+                if(collision.P == null)
+                    continue;
 
-                collisionTest(A, B);
+                resolveDynamics(collision);
             }
-
 
     }
 
-    private void collisionTest(GameObject A, GameObject B) {
-        Collider aCollider = A.getComponent(Collider.class);
-        Collider bCollider = B.getComponent(Collider.class);
+    private void resolveDynamics(Collision collision) {
+    }
 
-        if((aCollider != null) && (bCollider != null)){
-            //System.out.println("LETS CHECK COLLISION BETWEEN "+A.name + " and " +B.name);
+    private Collision findContactPoint(Collision collision) {
+        List<Vector3D> verticesA = collision.aCollider.getVertices();
+        List<Vector3D> verticesB = collision.bCollider.getVertices();
 
-            if(TEST_COLLISION_CIRCLE(aCollider, bCollider)){
-                //System.out.println("HEY, WE HAVE A CIRCLE COLLISION!");
-                Collision collision = TEST_COLLISION_MESH(aCollider, bCollider);
-                if(collision.collided){
-                    System.out.println("WE MESH-COLLIDED!");
-                }
+        List<Vector3D> contactPoints = getContactPoints(verticesA, verticesB, collision.collisionNormal, collision.depth);
+        if(contactPoints.size() >0)
+            collision.P = contactPoints.get(0);
+
+        return collision;
+    }
+
+    private void moveObjectsApart(Collision collision) {
+        if(collision.depth > 0){
+        /*
+            if(aCollider.isFixed){
+                bCollider.location.position.add(Vector3D.multiply(normal, depth));
             }
+            else if(bCollider.isFixed){
+                aCollider.location.position.add(Vector3D.multiply(normal, depth * (-1)));
+            }
+            else
+            {
+
+         */
+
+                Vector3D moveA = Vector3D.multiply(collision.collisionNormal, -collision.depth/2.0);
+                collision.aCollider.gameObject.getComponent(Transform.class).position.add(moveA);
+
+                Vector3D moveB = Vector3D.multiply(collision.collisionNormal, collision.depth/2.0);
+                collision.bCollider.gameObject.getComponent(Transform.class).position.add(moveB);
+            //}
         }
-    }
-
-    private Collision TEST_COLLISION_MESH(Collider aCollider, Collider bCollider) {
-        return SAT(aCollider, bCollider);
-    }
-
-    private boolean TEST_COLLISION_CIRCLE(Collider aCollider, Collider bCollider) {
-        double aRadius = aCollider.getSphereRadius();
-        double bRadius = bCollider.getSphereRadius();
-        //System.out.println("A_RADIUS: "+ aRadius);
-        //System.out.println("B_RADIUS: "+ bRadius);
-
-        Vector3D aPosition = aCollider.gameObject.getComponent(Transform.class).position;
-        Vector3D bPosition = bCollider.gameObject.getComponent(Transform.class).position;
-
-        double centersDistance = Vector3D.pointsDistance(aPosition, bPosition);
-
-        return (centersDistance <= (aRadius + bRadius));
     }
 
 
@@ -151,6 +152,18 @@ public class ScarusEngine extends Thread{
         }
     }
 
+    private void STEP_COLLISION_DETECTION() {
+        //WYZNACZENIE UNIKALNYCH PAR OBIEKTÓW
+
+        for(int g=0; g<scene.getGameObjectList().size(); g++)
+            for(int h=g+1; h<scene.getGameObjectList().size(); h++){
+                GameObject A = scene.getGameObjectList().get(g);
+                GameObject B = scene.getGameObjectList().get(h);
+
+                collisionTest(A, B);
+            }
+    }
+
     //////////////////////////////  TIME SECTION  ////////////////////////////////////
     private long start;
     private void stopTime() {
@@ -162,27 +175,48 @@ public class ScarusEngine extends Thread{
         start = System.nanoTime();
     }
 
-    //////////////////////////////////////////////////////////////////////////////////
-    public Collision SAT(Collider rect0, Collider rect1) {
+    ///////////////////////////////  COLLISIONS  /////////////////////////////////////
+
+    private void collisionTest(GameObject A, GameObject B) {
+        collisionList = new ArrayList<>();
+
+        Collider aCollider = A.getComponent(Collider.class);
+        Collider bCollider = B.getComponent(Collider.class);
+
+        if((aCollider != null) && (bCollider != null)) {
+            if (TEST_COLLISION_CIRCLE(aCollider, bCollider)) {
+                Collision collision = TEST_COLLISION_MESH(aCollider, bCollider);
+                if (collision.collided)
+                    collisionList.add(collision);
+            }
+        }
+
+    }
+
+    private boolean TEST_COLLISION_CIRCLE(Collider aCollider, Collider bCollider) {
+        double aRadius = aCollider.getSphereRadius();
+        double bRadius = bCollider.getSphereRadius();
+
+        Vector3D aPosition = aCollider.gameObject.getComponent(Transform.class).position;
+        Vector3D bPosition = bCollider.gameObject.getComponent(Transform.class).position;
+
+        double centersDistance = Vector3D.pointsDistance(aPosition, bPosition);
+
+        return (centersDistance <= (aRadius + bRadius));
+    }
+
+    private Collision TEST_COLLISION_MESH(Collider aCollider, Collider bCollider) {
+        return SAT(aCollider, bCollider);
+    }
+
+    public Collision SAT(Collider aCollider, Collider bCollider) {
         Vector3D normal = new Vector3D();
         double depth    = Double.MAX_VALUE;
         boolean onEdge  = false;
 
-        List<Vector3D> verticesA = new ArrayList<Vector3D>();
-        for(int i=0; i<rect0.mesh.vertices.size(); i++){
-            Vector3D vertex = rect0.mesh.vertices.get(i).copy();
-            vertex = Vector3D.add(vertex, rect0.gameObject.getComponent(Transform.class).position);
-
-            verticesA.add(vertex);
-        }
-
-        List<Vector3D> verticesB = new ArrayList<Vector3D>();
-        for(int i=0; i<rect1.mesh.vertices.size(); i++){
-            Vector3D vertex = rect1.mesh.vertices.get(i).copy();
-            vertex = Vector3D.add(vertex, rect1.gameObject.getComponent(Transform.class).position);
-
-            verticesB.add(vertex);
-        }
+        List<Vector3D> verticesA, verticesB;
+        verticesA = aCollider.getVertices();
+        verticesB = bCollider.getVertices();
 
         for(int i=0; i<verticesA.size(); i++){
             Vector3D va = verticesA.get(i).copy();
@@ -250,7 +284,7 @@ public class ScarusEngine extends Thread{
         depth /= normal.length();
         normal.normalize();
 
-        Vector3D direction = Vector3D.minus(rect1.gameObject.getComponent(Transform.class).position, rect0.gameObject.getComponent(Transform.class).position);
+        Vector3D direction = Vector3D.minus(bCollider.gameObject.getComponent(Transform.class).position, aCollider.gameObject.getComponent(Transform.class).position);
 
         if(Vector3D.dot(direction, normal) < 0f){
             normal.multiply(-1);
@@ -259,62 +293,18 @@ public class ScarusEngine extends Thread{
         if(Double.compare(depth, 0) == 0)
             onEdge = true;
 
-        if(depth > 0){
-            /*
-            if(rect0.isFixed){
-                rect1.location.position.add(Vector3D.multiply(normal, depth));
-            }
-            else if(rect1.isFixed){
-                rect0.location.position.add(Vector3D.multiply(normal, depth * (-1)));
-            }
-            else
-            {
-             */
-                Vector3D moveA = Vector3D.multiply(normal, -depth/2.0);
-                rect0.gameObject.getComponent(Transform.class).position.add(moveA);
-
-                Vector3D moveB = Vector3D.multiply(normal, depth/2.0);
-                rect1.gameObject.getComponent(Transform.class).position.add(moveB);
-            //}
-        }
-
-        //TODO: 2) przesłać do funkcji zaktualizowane obiekty
-        verticesA = new ArrayList<Vector3D>();
-        for(int i=0; i<rect0.mesh.vertices.size(); i++){
-            Vector3D vertex = rect0.mesh.vertices.get(i).copy();
-            vertex = Vector3D.add(vertex, rect0.gameObject.getComponent(Transform.class).position);
-
-            verticesA.add(vertex);
-        }
-
-        verticesB = new ArrayList<Vector3D>();
-        for(int i=0; i<rect1.mesh.vertices.size(); i++){
-            Vector3D vertex = rect1.mesh.vertices.get(i).copy();
-            vertex = Vector3D.add(vertex, rect1.gameObject.getComponent(Transform.class).position);
-
-            verticesB.add(vertex);
-        }
-
-
-
-
-
         Collision collision = new Collision();
-        collision.A = rect0.gameObject;
-        collision.B = rect1.gameObject;
+        collision.A = aCollider.gameObject;
+        collision.B = bCollider.gameObject;
+        collision.aCollider = aCollider;
+        collision.bCollider = bCollider;
         collision.collisionNormal = normal;
         collision.onEdge = onEdge;
         collision.collided = true;
+        collision.depth = depth;
 
-        System.out.println("=================================\nNORMAL: " + normal);
-        System.out.println("DEPTH : "+depth);
-
-        List<Vector3D> contactPoints = getContactPoints(verticesA, verticesB, normal, depth);
-        if(contactPoints.size() >0)
-            collision.P = contactPoints.get(0);
-
-
-        //System.out.println(contactPoints[0] + "\n" + contactPoints[1] + "\n" + contactPoints[2] + "\n" + contactPoints[3]);
+        aCollider.collision = collision;
+        bCollider.collision = collision;
 
         return collision;
     }
@@ -340,14 +330,14 @@ public class ScarusEngine extends Thread{
     private List<Vector3D> getContactPoints(List<Vector3D> verticesA, List<Vector3D> verticesB, Vector3D normal, double depth) {
         double EPSILON = 1;
         Vector3D a1 = verticesA.get(0);
-        System.out.println("\nVETICE A: "+a1);
+        //System.out.println("\nVETICE A: "+a1);
         double distA = Vector3D.dot(normal, a1);
         Vector3D a2 = null;
 
         for(int i=1; i<verticesA.size(); i++){
 
             Vector3D vertice = verticesA.get(i);
-            System.out.println("VETICE A: "+vertice);
+            //System.out.println("VETICE A: "+vertice);
             double distance = Vector3D.dot(normal, vertice);
 
 
@@ -361,13 +351,13 @@ public class ScarusEngine extends Thread{
         }
 
         Vector3D b1 = verticesB.get(0);
-        System.out.println("\nVETICE B: "+b1);
+        //System.out.println("\nVETICE B: "+b1);
         double distB = Vector3D.dot(Vector3D.multiply(normal, -1), b1);
         Vector3D b2 = null;
 
         for(int i=1; i<verticesB.size(); i++){
             Vector3D vertice = verticesB.get(i);
-            System.out.println("VETICE B: "+vertice);
+            //System.out.println("VETICE B: "+vertice);
             double distance = Vector3D.dot(Vector3D.multiply(normal, -1), vertice);
 
             if(Math.abs(distance - distB) < EPSILON){
@@ -380,7 +370,7 @@ public class ScarusEngine extends Thread{
         }
 
         Vector3D[] pointsAlongFace = new Vector3D[]{a1, a2, b1, b2};
-        System.out.println("POINTS ALONG FACE :\n"+pointsAlongFace[0]+"\n"+pointsAlongFace[1]+"\n"+pointsAlongFace[2]+"\n"+pointsAlongFace[3]);
+        //System.out.println("POINTS ALONG FACE :\n"+pointsAlongFace[0]+"\n"+pointsAlongFace[1]+"\n"+pointsAlongFace[2]+"\n"+pointsAlongFace[3]);
 
         Vector3D faceVec = new Vector3D(-normal.y, normal.x);
         Vector3D minVertice = pointsAlongFace[0];
@@ -409,7 +399,7 @@ public class ScarusEngine extends Thread{
             if(Vector3D.equall(point, minVertice)) continue;
             if(Vector3D.equall(point, maxVertice)) continue;
             contactPoints.add(point);
-            System.out.println("Hi, I'm the contact point!: "+point);
+            //System.out.println("Hi, I'm the contact point!: "+point);
         }
 
 

@@ -5,10 +5,13 @@ import ScarMath.Vector3D;
 
 public class Collision {
     public GameObject A, B;
+    public Collider aCollider, bCollider;
     public boolean collided;
     public boolean onEdge;
     public Vector3D collisionNormal;
     public Vector3D P;
+    public double depth;
+
 
     public Collision(){
         collided = false;
