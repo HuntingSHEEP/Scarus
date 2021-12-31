@@ -16,6 +16,19 @@ public class Mesh{
         this.vertices = vertices;
     }
 
+
+    public double getMaxVertexLen() {
+        double distance = 0;
+
+        for(Vector3D vertex : vertices){
+            double dist = vertex.length();
+            if(distance < dist)
+                distance = dist;
+        }
+
+        return distance;
+    }
+
     /////////////////////////////////////////////////////////////////////////////////////
 
     private static List<Vector3D> vQUAD = new ArrayList<Vector3D>(List.of(new Vector3D[]{
@@ -25,6 +38,4 @@ public class Mesh{
             new Vector3D(-50,50)}));
 
     public static Mesh QUAD = new Mesh(vQUAD);
-
-
 }

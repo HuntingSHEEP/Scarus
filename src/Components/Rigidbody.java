@@ -1,10 +1,12 @@
 package Components;
 
-public class Rigidbody extends Component{
-    public PhysicMaterial physicMaterial;
+import Colliders.Collider;
 
+public class Rigidbody extends Collider {
+    public String opis = "RIGID";
+    public PhysicMaterial physicMaterial;
     private Transform   transform;
-    private Mesh        mesh;
+
 
     public Rigidbody(PhysicMaterial physicMaterial){
         this.physicMaterial = physicMaterial;
@@ -14,9 +16,15 @@ public class Rigidbody extends Component{
     public void awake() {
         this.transform  = gameObject.getComponent(Transform.class);
         this.mesh = gameObject.getComponent(MeshFilter.class).mesh;
+        this.sphereRadius = mesh.getMaxVertexLen();
     }
 
     @Override
     public void update(double dt) {
+    }
+
+    @Override
+    public double getSphereRadius() {
+        return sphereRadius;
     }
 }
