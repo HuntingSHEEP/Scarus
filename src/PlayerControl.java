@@ -60,4 +60,5 @@ public class PlayerControl extends Component {
         if(Input.getKeyReleased(KeyCode.E))
             angularDynamics.angularVelocity -= angularVelocityValue;
     }
+
 }

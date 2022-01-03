@@ -12,7 +12,7 @@ import java.util.List;
 public abstract class Collider extends Component {
     public Mesh mesh;
     public Collision collision;
-    public boolean resolveCollision;
+    public boolean resolveCollision = false;
     protected double sphereRadius;
 
     public abstract double getSphereRadius();

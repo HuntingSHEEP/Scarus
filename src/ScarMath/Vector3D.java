@@ -1,20 +1,20 @@
 package ScarMath;
 
 public class Vector3D {
-    public double x;
-    public double y;
-    double z;
+    public Double x;
+    public Double y;
+    public Double z;
 
     public Vector3D(){
-        this.x = 0f;
-        this.y = 0f;
-        this.z = 0f;
+        this.x = 0.0;
+        this.y = 0.0;
+        this.z = 0.0;
     }
 
     public Vector3D(double x, double y) {
         this.x = x;
         this.y = y;
-        this.z = 0f;
+        this.z = 0.0;
     }
 
     public Vector3D(double x, double y, double z) {

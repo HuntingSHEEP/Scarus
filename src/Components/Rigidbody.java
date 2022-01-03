@@ -1,14 +1,18 @@
 package Components;
 
 import Colliders.Collider;
+import ScarMath.SMath;
 
 public class Rigidbody extends Collider {
     public String opis = "RIGID";
     public PhysicMaterial physicMaterial;
-    private Transform transform;
+    public Transform transform;
+    public double invertedMass, invertedInertia;
 
 
-    public Rigidbody(PhysicMaterial physicMaterial){
+    public Rigidbody(double invertedMass,double invertedInertia, PhysicMaterial physicMaterial){
+        this.invertedMass   = invertedMass;
+        this.invertedInertia= invertedInertia;
         this.physicMaterial = physicMaterial;
     }
 
@@ -28,5 +32,9 @@ public class Rigidbody extends Collider {
     @Override
     public double getSphereRadius() {
         return sphereRadius;
+    }
+
+    public boolean isFixed() {
+        return SMath.compare(invertedMass, 0, 0.000000001) && SMath.compare(invertedInertia, 0, 0.000000001);
     }
 }

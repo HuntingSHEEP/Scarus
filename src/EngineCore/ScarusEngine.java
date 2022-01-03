@@ -4,6 +4,7 @@ import Colliders.Collider;
 import Colliders.Collision;
 import Components.*;
 import Rendering.Scene;
+import ScarMath.Vec2;
 import ScarMath.Vector3D;
 
 import java.util.ArrayList;
@@ -50,6 +51,112 @@ public class ScarusEngine extends Thread{
     }
 
     private void resolveDynamics(Collision collision) {
+        Rigidbody A = (Rigidbody) collision.aCollider;
+        Rigidbody B = (Rigidbody) collision.bCollider;
+
+        Vector3D n = collision.collisionNormal;
+        n.normalize();
+
+        Vec2 normal = new Vec2(n.x.floatValue(), n.y.floatValue());
+
+        if(n.x.isNaN() || n.y.isNaN() || n.z.isNaN())
+            return;
+
+        float e = (float) Math.min(A.physicMaterial.bounciness, B.physicMaterial.bounciness);
+        Vec2 P = new Vec2(collision.P.x.floatValue(), collision.P.y.floatValue());
+
+        Vec2 ra = P.sub( new Vec2(A.transform.position.x.floatValue(),A.transform.position.y.floatValue()));
+        Vec2 rb = P.sub( new Vec2(B.transform.position.x.floatValue(), B.transform.position.y.floatValue()));
+
+        Vector3D bV = B.gameObject.getComponent(LinearDynamics.class).velocity;
+        Vector3D aV = A.gameObject.getComponent(LinearDynamics.class).velocity;
+
+        Vec2 Bvelocity = new Vec2(bV.x.floatValue(), bV.y.floatValue());
+        Vec2 Avelocity = new Vec2(aV.x.floatValue(), aV.y.floatValue());
+
+        double bOmega = B.gameObject.getComponent(AngularDynamics.class).angularVelocity;
+        double aOmega = A.gameObject.getComponent(AngularDynamics.class).angularVelocity;
+
+        Vec2 rv = Bvelocity.add( Vec2.cross((float) bOmega, rb, new Vec2() ) ).subi( Avelocity ).subi( Vec2.cross((float) aOmega, ra, new Vec2() ) );
+        float contactVel = Vec2.dot( rv, normal );
+
+        if (contactVel > 0)
+        {
+            return;
+        }
+
+        float raCrossN = Vec2.cross( ra, normal );
+        float rbCrossN = Vec2.cross( rb, normal );
+
+        float AinvInertia = (float) (A.invertedInertia);
+        float BinvInertia = (float) (B.invertedInertia);
+
+        float invMassSum = (float) (A.invertedMass + B.invertedMass + (raCrossN * raCrossN) * AinvInertia + (rbCrossN * rbCrossN) * BinvInertia);
+        float j = -(1.0f + e) * contactVel;
+        j /= invMassSum;
+
+        Vec2 impulse = normal.mul( j );
+
+        Vector3D AimpulsV = new Vector3D(impulse.neg().x * A.invertedMass, impulse.neg().y * A.invertedMass);
+        Vector3D BimpulsV = new Vector3D(impulse.x * B.invertedMass, impulse.y * B.invertedMass);
+
+
+        if(!A.isFixed()){
+            A.gameObject.getComponent(LinearDynamics.class).velocity.add(AimpulsV);
+            A.gameObject.getComponent(AngularDynamics.class).angularVelocity += A.invertedInertia * Vec2.cross(ra, impulse.neg());
+        }
+
+        if(!B.isFixed()){
+            B.gameObject.getComponent(LinearDynamics.class).velocity.add(BimpulsV);
+            B.gameObject.getComponent(AngularDynamics.class).angularVelocity += B.invertedInertia * Vec2.cross(rb, impulse);
+        }
+
+        Bvelocity = new Vec2(bV.x.floatValue(), bV.y.floatValue());
+        Avelocity = new Vec2(aV.x.floatValue(), aV.y.floatValue());
+        rv = Bvelocity.add( Vec2.cross((float) B.gameObject.getComponent(AngularDynamics.class).angularVelocity, rb, new Vec2() ) ).subi( Avelocity ).subi( Vec2.cross((float) A.gameObject.getComponent(AngularDynamics.class).angularVelocity, ra, new Vec2() ) );
+
+        Vec2 t = new Vec2( rv );
+        t.addsi( normal, -Vec2.dot( rv, normal ) );
+        t.normalize();
+
+        float jt = -Vec2.dot( rv, t );
+        jt /= invMassSum;
+        //jt /= contactCount;
+
+
+        if(Math.abs(jt) < 0.00000001){
+            return;
+        }
+
+        float sf = (float)StrictMath.sqrt( A.physicMaterial.staticFriction * A.physicMaterial.staticFriction + B.physicMaterial.staticFriction * B.physicMaterial.staticFriction);
+        float df = (float)StrictMath.sqrt( A.physicMaterial.dynamicFriction * A.physicMaterial.dynamicFriction + B.physicMaterial.dynamicFriction * B.physicMaterial.dynamicFriction);
+
+        // Coulumb's law
+        Vec2 tangentImpulse;
+        // if(std::abs( jt ) < j * sf)
+        if (StrictMath.abs( jt ) < j * sf)
+        {
+            // tangentImpulse = t * jt;
+            tangentImpulse = t.mul( jt );
+        }
+        else
+        {
+            // tangentImpulse = t * -j * df;
+            tangentImpulse = t.mul( j ).muli( -df );
+        }
+
+        AimpulsV = new Vector3D(tangentImpulse.neg().x * A.invertedMass, tangentImpulse.neg().y * A.invertedMass);
+        BimpulsV = new Vector3D(tangentImpulse.x * B.invertedMass, tangentImpulse.y * B.invertedMass);
+
+        if(!A.isFixed()){
+            A.gameObject.getComponent(LinearDynamics.class).velocity.add(AimpulsV);
+            A.gameObject.getComponent(AngularDynamics.class).angularVelocity += A.invertedInertia * Vec2.cross(ra, tangentImpulse.neg());
+        }
+
+        if(!B.isFixed()){
+            B.gameObject.getComponent(LinearDynamics.class).velocity.add(BimpulsV);
+            B.gameObject.getComponent(AngularDynamics.class).angularVelocity += B.invertedInertia * Vec2.cross(rb, tangentImpulse);
+        }
     }
 
     private Collision findContactPoint(Collision collision) {
@@ -370,13 +477,15 @@ public class ScarusEngine extends Thread{
         }
 
         Vector3D[] pointsAlongFace = new Vector3D[]{a1, a2, b1, b2};
-        //System.out.println("POINTS ALONG FACE :\n"+pointsAlongFace[0]+"\n"+pointsAlongFace[1]+"\n"+pointsAlongFace[2]+"\n"+pointsAlongFace[3]);
+        System.out.println("\n-----------------------------\nPOINTS ALONG FACE :\n"+pointsAlongFace[0]+"\n"+pointsAlongFace[1]+"\n"+pointsAlongFace[2]+"\n"+pointsAlongFace[3]);
 
         Vector3D faceVec = new Vector3D(-normal.y, normal.x);
         Vector3D minVertice = pointsAlongFace[0];
         Vector3D maxVertice = pointsAlongFace[0];
         double minDist = Vector3D.dot(faceVec, minVertice);
         double maxDist = Vector3D.dot(faceVec, maxVertice);
+        int minIndex   = 0;
+        int maxIndex   = 0;
 
         for(int i=1; i<pointsAlongFace.length; i++){
             Vector3D vertex = pointsAlongFace[i];
@@ -384,22 +493,27 @@ public class ScarusEngine extends Thread{
 
             double distance = Vector3D.dot(faceVec, vertex);
             if(distance < minDist){
-                minDist = distance;
-                minVertice = vertex;
+                minDist     = distance;
+                minVertice  = vertex;
+                minIndex    = i;
             }else if(maxDist < distance){
-                maxDist = distance;
-                maxVertice = vertex;
+                maxDist     = distance;
+                maxVertice  = vertex;
+                maxIndex    = i;
             }
         }
+
+        pointsAlongFace[minIndex] = null;
+        pointsAlongFace[maxIndex] = null;
 
         List<Vector3D> contactPoints = new ArrayList<Vector3D>();
 
         for(Vector3D point : pointsAlongFace){
             if(point == null) continue;;
-            if(Vector3D.equall(point, minVertice)) continue;
-            if(Vector3D.equall(point, maxVertice)) continue;
+            //if(Vector3D.equall(point, minVertice)) continue;
+            //if(Vector3D.equall(point, maxVertice)) continue;
             contactPoints.add(point);
-            //System.out.println("Hi, I'm the contact point!: "+point);
+            System.out.println("Hi, I'm the contact point!: "+point);
         }
 
 
