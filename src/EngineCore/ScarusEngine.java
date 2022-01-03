@@ -100,16 +100,26 @@ public class ScarusEngine extends Thread{
         Vector3D AimpulsV = new Vector3D(impulse.neg().x * A.invertedMass, impulse.neg().y * A.invertedMass);
         Vector3D BimpulsV = new Vector3D(impulse.x * B.invertedMass, impulse.y * B.invertedMass);
 
-
-        if(!A.isFixed()){
+        if(!A.positionFixed())
             A.gameObject.getComponent(LinearDynamics.class).velocity.add(AimpulsV);
+        if(!A.rotationFixed())
             A.gameObject.getComponent(AngularDynamics.class).angularVelocity += A.invertedInertia * Vec2.cross(ra, impulse.neg());
-        }
 
-        if(!B.isFixed()){
+        if(!B.positionFixed())
             B.gameObject.getComponent(LinearDynamics.class).velocity.add(BimpulsV);
+        if(!B.rotationFixed())
             B.gameObject.getComponent(AngularDynamics.class).angularVelocity += B.invertedInertia * Vec2.cross(rb, impulse);
-        }
+
+
+        //if(!A.isFixed()){
+        //    A.gameObject.getComponent(LinearDynamics.class).velocity.add(AimpulsV);
+       //     A.gameObject.getComponent(AngularDynamics.class).angularVelocity += A.invertedInertia * Vec2.cross(ra, impulse.neg());
+       // }
+
+        //if(!B.isFixed()){
+         //   B.gameObject.getComponent(LinearDynamics.class).velocity.add(BimpulsV);
+          //  B.gameObject.getComponent(AngularDynamics.class).angularVelocity += B.invertedInertia * Vec2.cross(rb, impulse);
+        //}
 
         Bvelocity = new Vec2(bV.x.floatValue(), bV.y.floatValue());
         Avelocity = new Vec2(aV.x.floatValue(), aV.y.floatValue());
@@ -148,15 +158,26 @@ public class ScarusEngine extends Thread{
         AimpulsV = new Vector3D(tangentImpulse.neg().x * A.invertedMass, tangentImpulse.neg().y * A.invertedMass);
         BimpulsV = new Vector3D(tangentImpulse.x * B.invertedMass, tangentImpulse.y * B.invertedMass);
 
-        if(!A.isFixed()){
+        if(!A.positionFixed())
             A.gameObject.getComponent(LinearDynamics.class).velocity.add(AimpulsV);
+        if(!A.rotationFixed())
             A.gameObject.getComponent(AngularDynamics.class).angularVelocity += A.invertedInertia * Vec2.cross(ra, tangentImpulse.neg());
-        }
 
-        if(!B.isFixed()){
+        //if(!A.isFixed()){
+         //   A.gameObject.getComponent(LinearDynamics.class).velocity.add(AimpulsV);
+          //  A.gameObject.getComponent(AngularDynamics.class).angularVelocity += A.invertedInertia * Vec2.cross(ra, tangentImpulse.neg());
+        //}
+
+        if(!B.positionFixed())
             B.gameObject.getComponent(LinearDynamics.class).velocity.add(BimpulsV);
+        if(!B.rotationFixed())
             B.gameObject.getComponent(AngularDynamics.class).angularVelocity += B.invertedInertia * Vec2.cross(rb, tangentImpulse);
-        }
+
+
+       // if(!B.isFixed()){
+        //    B.gameObject.getComponent(LinearDynamics.class).velocity.add(BimpulsV);
+         //   B.gameObject.getComponent(AngularDynamics.class).angularVelocity += B.invertedInertia * Vec2.cross(rb, tangentImpulse);
+        //}
     }
 
     private Collision findContactPoint(Collision collision) {
@@ -172,24 +193,23 @@ public class ScarusEngine extends Thread{
 
     private void moveObjectsApart(Collision collision) {
         if(collision.depth > 0){
-        /*
-            if(aCollider.isFixed){
-                bCollider.location.position.add(Vector3D.multiply(normal, depth));
+
+            if(collision.A.getComponent(Transform.class).fixedPosition){
+                Vector3D moveB = Vector3D.multiply(collision.collisionNormal, collision.depth);
+                collision.bCollider.gameObject.getComponent(Transform.class).position.add(moveB);
             }
-            else if(bCollider.isFixed){
-                aCollider.location.position.add(Vector3D.multiply(normal, depth * (-1)));
+            else if(collision.B.getComponent(Transform.class).fixedPosition){
+                Vector3D moveA = Vector3D.multiply(collision.collisionNormal, -collision.depth);
+                collision.aCollider.gameObject.getComponent(Transform.class).position.add(moveA);
             }
             else
             {
-
-         */
-
                 Vector3D moveA = Vector3D.multiply(collision.collisionNormal, -collision.depth/2.0);
-                collision.aCollider.gameObject.getComponent(Transform.class).position.add(moveA);
-
                 Vector3D moveB = Vector3D.multiply(collision.collisionNormal, collision.depth/2.0);
+
+                collision.aCollider.gameObject.getComponent(Transform.class).position.add(moveA);
                 collision.bCollider.gameObject.getComponent(Transform.class).position.add(moveB);
-            //}
+            }
         }
     }
 
@@ -477,7 +497,7 @@ public class ScarusEngine extends Thread{
         }
 
         Vector3D[] pointsAlongFace = new Vector3D[]{a1, a2, b1, b2};
-        System.out.println("\n-----------------------------\nPOINTS ALONG FACE :\n"+pointsAlongFace[0]+"\n"+pointsAlongFace[1]+"\n"+pointsAlongFace[2]+"\n"+pointsAlongFace[3]);
+        //System.out.println("\n-----------------------------\nPOINTS ALONG FACE :\n"+pointsAlongFace[0]+"\n"+pointsAlongFace[1]+"\n"+pointsAlongFace[2]+"\n"+pointsAlongFace[3]);
 
         Vector3D faceVec = new Vector3D(-normal.y, normal.x);
         Vector3D minVertice = pointsAlongFace[0];
@@ -513,11 +533,8 @@ public class ScarusEngine extends Thread{
             //if(Vector3D.equall(point, minVertice)) continue;
             //if(Vector3D.equall(point, maxVertice)) continue;
             contactPoints.add(point);
-            System.out.println("Hi, I'm the contact point!: "+point);
+            //System.out.println("Hi, I'm the contact point!: "+point);
         }
-
-
-
 
         return contactPoints;
     }

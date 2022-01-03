@@ -34,7 +34,11 @@ public class Rigidbody extends Collider {
         return sphereRadius;
     }
 
-    public boolean isFixed() {
-        return SMath.compare(invertedMass, 0, 0.000000001) && SMath.compare(invertedInertia, 0, 0.000000001);
+    public boolean positionFixed(){
+        return SMath.compare(invertedMass, 0, 0.000000001);
+    }
+
+    public boolean rotationFixed(){
+        return SMath.compare(invertedInertia, 0, 0.000000001);
     }
 }

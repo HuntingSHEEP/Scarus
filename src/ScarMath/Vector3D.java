@@ -52,6 +52,12 @@ public class Vector3D {
         return new Vector3D(this.x, this.y, this.z);
     }
 
+    public void multiply(Vector3D v){
+        this.x *= v.x;
+        this.y *= v.y;
+        this.z *= v.z;
+    }
+
     public double length(){
         return Math.sqrt(x*x + y*y + z*z);
     }
