@@ -81,6 +81,9 @@ public class Vector3D {
     public static Vector3D multiply(Vector3D v, double scale){
         return new Vector3D(v.x*scale, v.y*scale, v.z*scale);
     }
+    public static Vector3D multiply(Vector3D v, Vector3D scaleVector){
+        return new Vector3D(v.x*scaleVector.x, v.y*scaleVector.y, v.z*scaleVector.z);
+    }
     public static double dot(Vector3D v1, Vector3D v2){
         return v1.x*v2.x + v1.y*v2.y + v1.z*v2.z;
     }

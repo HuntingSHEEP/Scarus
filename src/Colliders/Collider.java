@@ -15,15 +15,24 @@ public abstract class Collider extends Component {
     public boolean resolveCollision = false;
     protected double sphereRadius;
 
-    public abstract double getSphereRadius();
+    public double getSphereRadius(){
+        return sphereRadius;
+    }
 
     public List<Vector3D> getVertices() {
         Vector3D position = gameObject.getComponent(Transform.class).position;
         double   rotation = gameObject.getComponent(Transform.class).rotation;
 
-        //FIRST ROTATE THE MESH
-        List<Vector3D> rotatedVertices = new ArrayList<>();
+        //SCALE THE MESH
+        Vector3D scale = gameObject.getComponent(Transform.class).scale;
+        List<Vector3D> scaledVertices = new ArrayList<>();
+
         for(Vector3D vertice : mesh.vertices)
+            scaledVertices.add(Vector3D.multiply(vertice, scale));
+
+        //ROTATE THE MESH
+        List<Vector3D> rotatedVertices = new ArrayList<>();
+        for(Vector3D vertice : scaledVertices)
             rotatedVertices.add(SMath.rotatePoint(vertice, new Vector3D(0,0, 1), rotation));
 
         //THEN PLACE THE MESH IN THE CORRECT POSITION
@@ -35,8 +44,18 @@ public abstract class Collider extends Component {
 
     @Override
     public void update(double dt) {
-
         collision = null;
     }
+    
+    @Override
+    public void awake(){
+        setUpSphereRadius();
+    }
+
+    private void setUpSphereRadius() {
+        Vector3D scale = gameObject.getComponent(Transform.class).scale;
+        this.sphereRadius = mesh.getMaxVertexLen(scale);
+    }
+
 
 }

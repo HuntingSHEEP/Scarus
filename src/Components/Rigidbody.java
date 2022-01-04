@@ -20,8 +20,8 @@ public class Rigidbody extends Collider {
     public void awake() {
         this.transform  = gameObject.getComponent(Transform.class);
         this.mesh = gameObject.getComponent(MeshFilter.class).mesh;
-        this.sphereRadius = mesh.getMaxVertexLen();
         this.resolveCollision = true;
+        super.awake();
     }
 
     @Override
@@ -29,10 +29,10 @@ public class Rigidbody extends Collider {
         super.update(dt);
     }
 
-    @Override
-    public double getSphereRadius() {
-        return sphereRadius;
-    }
+    //@Override
+    //public double getSphereRadius() {
+    //    return sphereRadius;
+    //}
 
     public boolean positionFixed(){
         return SMath.compare(invertedMass, 0, 0.000000001);

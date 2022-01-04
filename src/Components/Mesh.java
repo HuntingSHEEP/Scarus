@@ -17,10 +17,15 @@ public class Mesh{
     }
 
 
-    public double getMaxVertexLen() {
+    public double getMaxVertexLen(Vector3D scale) {
+        //SCALE THE MESH
+        List<Vector3D> scaledVertices = new ArrayList<>();
+        for(Vector3D vertice : vertices)
+            scaledVertices.add(Vector3D.multiply(vertice, scale));
+
         double distance = 0;
 
-        for(Vector3D vertex : vertices){
+        for(Vector3D vertex : scaledVertices){
             double dist = vertex.length();
             if(distance < dist)
                 distance = dist;

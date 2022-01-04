@@ -37,6 +37,9 @@ public class ScarusEngine extends Thread{
     }
 
     private void STEP_COLLISION_RESOLUTION() {
+        if(collisionList == null)
+            return;
+
         for(Collision collision : collisionList)
             if(collision.aCollider.resolveCollision && collision.bCollider.resolveCollision){
                 moveObjectsApart(collision);
@@ -47,7 +50,6 @@ public class ScarusEngine extends Thread{
 
                 resolveDynamics(collision);
             }
-
     }
 
     private void resolveDynamics(Collision collision) {

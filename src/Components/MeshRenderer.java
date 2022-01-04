@@ -28,15 +28,28 @@ public class MeshRenderer extends Component {
     }
 
     public Polygon getPolygon() {
+        /*
+        SCALE
+        ROTATE
+        MOVE
+         */
+
         int[] xPoly = new int[mesh.vertices.size()];
         int[] yPoly = new int[mesh.vertices.size()];
 
         Vector3D position = gameObject.getComponent(Transform.class).position;
         double   rotation = gameObject.getComponent(Transform.class).rotation;
 
-        //FIRST ROTATE THE MESH
-        List<Vector3D> rotatedVertices = new ArrayList<>();
+        //SCALE THE MESH
+        Vector3D scale = gameObject.getComponent(Transform.class).scale;
+        List<Vector3D> scaledVertices = new ArrayList<>();
+
         for(Vector3D vertice : mesh.vertices)
+            scaledVertices.add(Vector3D.multiply(vertice, scale));
+
+        //ROTATE THE MESH
+        List<Vector3D> rotatedVertices = new ArrayList<>();
+        for(Vector3D vertice : scaledVertices)
             rotatedVertices.add(SMath.rotatePoint(vertice, new Vector3D(0,0, 1), rotation));
 
         //THEN PLACE THE MESH IN THE CORRECT POSITION
