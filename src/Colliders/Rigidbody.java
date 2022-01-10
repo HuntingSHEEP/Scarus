@@ -1,10 +1,12 @@
-package Components;
+package Colliders;
 
 import Colliders.Collider;
+import Components.MeshFilter;
+import Components.PhysicMaterial;
+import Components.Transform;
 import ScarMath.SMath;
 
 public class Rigidbody extends Collider {
-    public String opis = "RIGID";
     public PhysicMaterial physicMaterial;
     public Transform transform;
     public double invertedMass, invertedInertia;

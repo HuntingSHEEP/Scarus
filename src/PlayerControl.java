@@ -1,9 +1,8 @@
-import Colliders.Collider;
 import Colliders.Collision;
 import Components.AngularDynamics;
 import Components.Component;
 import Components.LinearDynamics;
-import Components.Rigidbody;
+import Colliders.Rigidbody;
 import EngineCore.GameObject;
 import InputInterface.Input;
 import InputInterface.KeyCode;

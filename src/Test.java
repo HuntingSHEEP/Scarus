@@ -1,9 +1,9 @@
-import Colliders.Collider;
+import Colliders.MeshCollider;
+import Colliders.Rigidbody;
 import Components.*;
 import EngineCore.*;
 import Rendering.RenderEngine;
 import Rendering.Scene;
-import ScarMath.SMath;
 import ScarMath.Vector3D;
 import java.awt.*;
 
@@ -15,7 +15,8 @@ public class Test {
         go1.addComponent(new AngularDynamics(0, 0));
         go1.addComponent(new MeshFilter(Mesh.QUAD));
         go1.addComponent(new MeshRenderer(Color.ORANGE, 1f));
-        go1.addComponent(new Rigidbody(0, 0, new PhysicMaterial(0.6,0.5,0.3)));
+        //go1.addComponent(new Rigidbody(0, 0, new PhysicMaterial(0.6,0.5,0.3)));
+        go1.addComponent(new MeshCollider(Mesh.QUAD));
 
 
         GameObject go = new GameObject("kilof");
