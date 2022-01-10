@@ -1,4 +1,5 @@
 import Colliders.Collider;
+import Colliders.Collision;
 import Components.AngularDynamics;
 import Components.Component;
 import Components.LinearDynamics;
@@ -34,15 +35,15 @@ public class PlayerControl extends Component {
     }
 
     private void collision() {
-        if (rigidBody.collision != null) {
-            if (rigidBody.collision.collided) {
-                GameObject obiektKolizji = rigidBody.collision.A;
-                if (obiektKolizji == gameObject)
-                    obiektKolizji = rigidBody.collision.B;
+        for(Collision collision : rigidBody.collisionList)
+            if (collision != null)
+                if (collision.collided) {
+                    GameObject obiektKolizji = collision.A;
+                    if (obiektKolizji == gameObject)
+                        obiektKolizji = collision.B;
 
-                System.out.println("Detected collision with object [" + obiektKolizji.name +"]");
-            }
-        }
+                    System.out.println("Detected collision with object [" + obiektKolizji.name +"]");
+                }
     }
 
     private void manageWSAD() {

@@ -11,12 +11,23 @@ import java.util.List;
 
 public abstract class Collider extends Component {
     public Mesh mesh;
-    public Collision collision;
+    public List<Collision> collisionList;
     public boolean resolveCollision = false;
     protected double sphereRadius;
 
+    @Override
+    public void awake(){
+        setUpSphereRadius();
+        this.collisionList = new ArrayList<>();
+    }
+
+    @Override
+    public void update(double dt) {
+        //collision = null;
+    }
+
     public void clear(){
-        this.collision = null;
+        this.collisionList = new ArrayList<>();
     }
 
     public double getSphereRadius(){
@@ -46,15 +57,7 @@ public abstract class Collider extends Component {
         return rotatedVertices;
     }
 
-    @Override
-    public void update(double dt) {
-        //collision = null;
-    }
-    
-    @Override
-    public void awake(){
-        setUpSphereRadius();
-    }
+
 
     private void setUpSphereRadius() {
         Vector3D scale = gameObject.getComponent(Transform.class).scale;

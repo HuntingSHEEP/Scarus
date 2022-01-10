@@ -316,16 +316,27 @@ public class ScarusEngine extends Thread{
     private void collisionTest(GameObject A, GameObject B) {
         collisionList = new ArrayList<>();
 
-        Collider aCollider = A.getComponent(Collider.class);
-        Collider bCollider = B.getComponent(Collider.class);
+        List<Collider> aList = A.getComponentList(Collider.class);
+        List<Collider> bList = B.getComponentList(Collider.class);
 
-        if((aCollider != null) && (bCollider != null)) {
-            if (TEST_COLLISION_CIRCLE(aCollider, bCollider)) {
-                Collision collision = TEST_COLLISION_MESH(aCollider, bCollider);
-                if (collision.collided)
-                    collisionList.add(collision);
+        for(Collider aCollider : aList)
+            for(Collider bCollider : bList){
+
+                //Collider aCollider = A.getComponent(Collider.class);
+                //Collider bCollider = B.getComponent(Collider.class);
+
+                if((aCollider != null) && (bCollider != null)) {
+                    if (TEST_COLLISION_CIRCLE(aCollider, bCollider)) {
+                        Collision collision = TEST_COLLISION_MESH(aCollider, bCollider);
+                        if (collision.collided)
+                            collisionList.add(collision);
+                    }
+                }
+
+
             }
-        }
+
+
 
     }
 
@@ -439,8 +450,8 @@ public class ScarusEngine extends Thread{
         collision.collided = true;
         collision.depth = depth;
 
-        aCollider.collision = collision;
-        bCollider.collision = collision;
+        aCollider.collisionList.add(collision);
+        bCollider.collisionList.add(collision);
 
         return collision;
     }
