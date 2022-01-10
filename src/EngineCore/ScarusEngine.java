@@ -29,11 +29,18 @@ public class ScarusEngine extends Thread{
             STEP_UPDATE();
             STEP_LINEAR_DYNAMICS();
             STEP_ANGULAR_DYNAMICS();
+            STEP_CLEAR_COLLIDERS();
             STEP_COLLISION_DETECTION();
             STEP_COLLISION_RESOLUTION();
 
             stopTime();
         }
+    }
+
+    private void STEP_CLEAR_COLLIDERS() {
+        for(GameObject gameObject : scene.getGameObjectList())
+            for(Collider collider : gameObject.getComponentList(Collider.class))
+                collider.clear();
     }
 
     private void STEP_COLLISION_RESOLUTION() {

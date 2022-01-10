@@ -1,6 +1,9 @@
+import Colliders.Collider;
 import Components.AngularDynamics;
 import Components.Component;
 import Components.LinearDynamics;
+import Components.Rigidbody;
+import EngineCore.GameObject;
 import InputInterface.Input;
 import InputInterface.KeyCode;
 import ScarMath.Vector3D;
@@ -11,6 +14,7 @@ public class PlayerControl extends Component {
 
     Vector3D objectLinearAcceleration;
     AngularDynamics angularDynamics;
+    Rigidbody rigidBody;
 
     @Override
     public void awake() {
@@ -19,12 +23,26 @@ public class PlayerControl extends Component {
 
         objectLinearAcceleration = gameObject.getComponent(LinearDynamics.class).acceleration;
         angularDynamics = gameObject.getComponent(AngularDynamics.class);
+        rigidBody       = gameObject.getComponent(Rigidbody.class);
     }
 
     @Override
     public void update(double dt) {
         manageWSAD();
         manageRotation();
+        collision();
+    }
+
+    private void collision() {
+        if (rigidBody.collision != null) {
+            if (rigidBody.collision.collided) {
+                GameObject obiektKolizji = rigidBody.collision.A;
+                if (obiektKolizji == gameObject)
+                    obiektKolizji = rigidBody.collision.B;
+
+                System.out.println("Detected collision with object [" + obiektKolizji.name +"]");
+            }
+        }
     }
 
     private void manageWSAD() {

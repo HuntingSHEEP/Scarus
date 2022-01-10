@@ -9,7 +9,7 @@ import java.awt.*;
 
 public class Test {
     public static void main(String[] args){
-        GameObject go1 = new GameObject("pochodnia");
+        GameObject go1 = new GameObject("skała");
         go1.addComponent(new Transform(new Vector3D(400,400), 0.06,5, true, true, new Vector3D(5,0.5,1)));
         go1.addComponent(new LinearDynamics());
         go1.addComponent(new AngularDynamics(0, 0));

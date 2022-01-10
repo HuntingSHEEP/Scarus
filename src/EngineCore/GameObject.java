@@ -18,10 +18,6 @@ public class GameObject {
         this.name = name;
     }
 
-    public List<Component> getComponentList() {
-        return components;
-    }
-
     public void addComponent(Component component){
         components.add(component);
         component.gameObject = this;
@@ -50,6 +46,22 @@ public class GameObject {
         return null;
     }
 
+    public List<Component> getComponentList() {
+        return components;
+    }
 
+    public <T extends Component> List<T> getComponentList(Class<T> componentClass){
+        List<T> matchingComponents = new ArrayList<>();
 
+        for(Component c : components)
+            if(componentClass.isAssignableFrom(c.getClass()))
+                try{
+                    matchingComponents.add(componentClass.cast(c));
+                }catch (ClassCastException e){
+                    e.printStackTrace();
+                    assert false: "COMPONENT CASTING ERROR";
+                }
+
+        return matchingComponents;
+    }
 }

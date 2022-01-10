@@ -15,6 +15,10 @@ public abstract class Collider extends Component {
     public boolean resolveCollision = false;
     protected double sphereRadius;
 
+    public void clear(){
+        this.collision = null;
+    }
+
     public double getSphereRadius(){
         return sphereRadius;
     }
@@ -44,7 +48,7 @@ public abstract class Collider extends Component {
 
     @Override
     public void update(double dt) {
-        collision = null;
+        //collision = null;
     }
     
     @Override
@@ -56,6 +60,4 @@ public abstract class Collider extends Component {
         Vector3D scale = gameObject.getComponent(Transform.class).scale;
         this.sphereRadius = mesh.getMaxVertexLen(scale);
     }
-
-
 }
