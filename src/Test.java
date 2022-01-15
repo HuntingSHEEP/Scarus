@@ -18,7 +18,8 @@ public class Test {
         statek.addComponent(new AngularDynamics(0, 0));
         statek.addComponent(new LinearDynamics(new Vector3D(), new Vector3D()));
         statek.addComponent(new Rigidbody(0.1, 0.0001,new PhysicMaterial(0.6,0.5,0.7)));
-        statek.addComponent(new PlayerControl());
+        PlayerControl playerControl = new PlayerControl();
+        statek.addComponent(playerControl);
 
         GameObject sciana = new GameObject("SCIANA");
         sciana.addComponent(new Transform(new Vector3D(550,60), 0, 5, true, true, new Vector3D(10,0.1,1)));
@@ -37,7 +38,7 @@ public class Test {
         sciana2.addComponent(new Rigidbody(0, 0, new PhysicMaterial(0.6,0.5,0.3)));
 
         GameObject skala = new GameObject("SKALA");
-        skala.addComponent(new Transform(new Vector3D(600,200), 0, 5, false, false, new Vector3D(1.5,1,1)));
+        skala.addComponent(new Transform(new Vector3D(600,200), 0, 5, false, false, new Vector3D(1.5,1.5,1)));
         skala.addComponent(new MeshFilter(new Mesh(MeshManager.SKALA_1)));
         skala.addComponent(new MeshRenderer(Color.ORANGE, 1f));
         skala.addComponent(new AngularDynamics(0.1, 0));
@@ -47,9 +48,10 @@ public class Test {
         Scene scene = new Scene();
         scene.addGameObject(sciana);
         scene.addGameObject(sciana2);
-
         scene.addGameObject(statek);
-        scene.addGameObject(skala);
+        //scene.addGameObject(skala);
+
+        playerControl.scene = scene;
 
         ScarusEngine scarusEngine = new ScarusEngine(scene);
         RenderEngine renderEngine = new RenderEngine(scene);

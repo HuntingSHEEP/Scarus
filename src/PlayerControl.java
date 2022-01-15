@@ -1,14 +1,16 @@
 import Colliders.Collider;
 import Colliders.Collision;
 import Colliders.MeshCollider;
-import Components.AngularDynamics;
-import Components.Component;
-import Components.LinearDynamics;
+import Components.*;
 import Colliders.Rigidbody;
+import Components.Component;
 import EngineCore.GameObject;
 import InputInterface.Input;
 import InputInterface.KeyCode;
+import Rendering.Scene;
 import ScarMath.Vector3D;
+
+import java.awt.*;
 
 public class PlayerControl extends Component {
     int linearAccelerationValue;
@@ -16,7 +18,8 @@ public class PlayerControl extends Component {
 
     Vector3D objectLinearAcceleration;
     AngularDynamics angularDynamics;
-    Rigidbody collider;
+    Collider collider;
+    Scene scene;
 
 
     @Override
@@ -33,7 +36,19 @@ public class PlayerControl extends Component {
     public void update(double dt) {
         manageWSAD();
         manageRotation();
+        manageShooting();
         collision();
+    }
+
+    private void manageShooting() {
+        if(Input.getKeyDown(KeyCode.SPACE))
+            shoot();
+    }
+
+    private void shoot() {
+        System.out.println("SHOOT");
+        GameObject pocisk = createPocisk();
+        scene.bufferGameObject(pocisk);
     }
 
     private void collision() {
@@ -47,8 +62,6 @@ public class PlayerControl extends Component {
                     System.out.println("Detected collision with object [" + obiektKolizji.name +"]");
                 }
     }
-
-
 
     private void manageWSAD() {
         if(Input.getKeyDown(KeyCode.W))
@@ -82,6 +95,17 @@ public class PlayerControl extends Component {
             angularDynamics.angularVelocity += angularVelocityValue;
         if(Input.getKeyReleased(KeyCode.E))
             angularDynamics.angularVelocity -= angularVelocityValue;
+    }
+
+    private GameObject createPocisk() {
+        GameObject pocisk = new GameObject("POCISK");
+        pocisk.addComponent(new Transform(new Vector3D(550,560), 0, 5, false, false, new Vector3D(0.2,0.2,1)));
+        pocisk.addComponent(new MeshFilter(Mesh.QUAD));
+        pocisk.addComponent(new MeshRenderer(Color.GRAY, 1f));
+        pocisk.addComponent(new AngularDynamics(0, 0));
+        pocisk.addComponent(new LinearDynamics(new Vector3D(0,-10), new Vector3D()));
+
+        return pocisk;
     }
 
 }
