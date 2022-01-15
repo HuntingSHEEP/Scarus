@@ -47,15 +47,6 @@ public class ScarusEngine extends Thread{
         if(collisionList == null)
             return;
 
-        if(collisionList.size() > 0){
-            System.out.println("DETECTED "+collisionList.size()+" COLLISIONS!");
-            for(Collision collision : collisionList){
-                System.out.println(collision.A.name+"  VS  "+collision.B.name);
-            }
-
-        }
-
-
         //System.out.println("START COLLISION RESOLUTION");
         for(Collision collision : collisionList) {
             //System.out.println(collision.A.name +"  VS  "+collision.B.name);
@@ -328,8 +319,6 @@ public class ScarusEngine extends Thread{
     ///////////////////////////////  COLLISIONS  /////////////////////////////////////
 
     private void collisionTest(GameObject A, GameObject B) {
-
-
         List<Collider> aList = A.getComponentList(Collider.class);
         List<Collider> bList = B.getComponentList(Collider.class);
 

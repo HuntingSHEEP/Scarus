@@ -12,7 +12,7 @@ import java.awt.*;
 public class Test {
     public static void main(String[] args){
         GameObject statek = new GameObject("STATEK");
-        statek.addComponent(new Transform(new Vector3D(750,200), 0,5, false, false, new Vector3D(1,1.2,1)));
+        statek.addComponent(new Transform(new Vector3D(550,500), 0,5, false, false, new Vector3D(1,1.2,1)));
         statek.addComponent(new MeshFilter(new Mesh(MeshManager.SHIP)));
         statek.addComponent(new MeshRenderer(Color.CYAN, 1f));
         statek.addComponent(new AngularDynamics(0, 0));
@@ -21,24 +21,34 @@ public class Test {
         statek.addComponent(new PlayerControl());
 
         GameObject sciana = new GameObject("SCIANA");
-        sciana.addComponent(new Transform(new Vector3D(200,200), 0, 5, false, false, new Vector3D(2,0.5,1)));
+        sciana.addComponent(new Transform(new Vector3D(550,60), 0, 5, true, true, new Vector3D(10,0.1,1)));
         sciana.addComponent(new MeshFilter(Mesh.QUAD));
         sciana.addComponent(new MeshRenderer(Color.RED, 1f));
         sciana.addComponent(new AngularDynamics(0, 0));
-        sciana.addComponent(new LinearDynamics(new Vector3D(7,0), new Vector3D()));
-        sciana.addComponent(new Rigidbody(0.1, 0.0001, new PhysicMaterial(0.6,0.5,0.3)));
+        sciana.addComponent(new LinearDynamics(new Vector3D(0,0), new Vector3D()));
+        sciana.addComponent(new Rigidbody(0, 0, new PhysicMaterial(0.6,0.5,0.3)));
+
+        GameObject sciana2 = new GameObject("SCIANA");
+        sciana2.addComponent(new Transform(new Vector3D(550,800), 0, 5, true, true, new Vector3D(10,0.1,1)));
+        sciana2.addComponent(new MeshFilter(Mesh.QUAD));
+        sciana2.addComponent(new MeshRenderer(Color.RED, 1f));
+        sciana2.addComponent(new AngularDynamics(0, 0));
+        sciana2.addComponent(new LinearDynamics(new Vector3D(0,0), new Vector3D()));
+        sciana2.addComponent(new Rigidbody(0, 0, new PhysicMaterial(0.6,0.5,0.3)));
 
         GameObject skala = new GameObject("SKALA");
-        skala.addComponent(new Transform(new Vector3D(600,200), 0, 5, false, false, new Vector3D(1,1,1)));
-        skala.addComponent(new MeshFilter(Mesh.QUAD));
-        skala.addComponent(new MeshRenderer(Color.RED, 1f));
-        skala.addComponent(new AngularDynamics(0, 0));
-        skala.addComponent(new LinearDynamics(new Vector3D(0,0), new Vector3D()));
+        skala.addComponent(new Transform(new Vector3D(600,200), 0, 5, false, false, new Vector3D(1.5,1,1)));
+        skala.addComponent(new MeshFilter(new Mesh(MeshManager.SKALA_1)));
+        skala.addComponent(new MeshRenderer(Color.ORANGE, 1f));
+        skala.addComponent(new AngularDynamics(0.1, 0));
+        skala.addComponent(new LinearDynamics(new Vector3D(-0.5,7), new Vector3D()));
         skala.addComponent(new Rigidbody(0.1, 0.0001, new PhysicMaterial(0.6,0.5,0.3)));
 
         Scene scene = new Scene();
-        scene.addGameObject(statek);
         scene.addGameObject(sciana);
+        scene.addGameObject(sciana2);
+
+        scene.addGameObject(statek);
         scene.addGameObject(skala);
 
         ScarusEngine scarusEngine = new ScarusEngine(scene);
