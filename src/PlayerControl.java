@@ -16,7 +16,7 @@ public class PlayerControl extends Component {
 
     Vector3D objectLinearAcceleration;
     AngularDynamics angularDynamics;
-    Rigidbody collider;
+    Collider collider;
 
 
     @Override

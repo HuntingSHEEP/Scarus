@@ -20,7 +20,7 @@ public class GameObject {
 
     public void addComponent(Component component){
         components.add(component);
-        component.gameObject = this;
+        component.gameObject = this; //PRZYPISUJEMY DO NASZEGO DZIECKA SIEBIE (TEN OBIEKT)
     }
 
     public <T extends Component> void removeComponent(Class<T> componentClass){

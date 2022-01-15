@@ -27,6 +27,7 @@ public class Test {
         sciana.addComponent(new AngularDynamics(0, 0));
         sciana.addComponent(new LinearDynamics(new Vector3D(0,0), new Vector3D()));
         sciana.addComponent(new Rigidbody(0, 0, new PhysicMaterial(0.6,0.5,0.3)));
+        sciana.addComponent(new TeleportRock());
 
         GameObject sciana2 = new GameObject("SCIANA");
         sciana2.addComponent(new Transform(new Vector3D(550,800), 0, 5, true, true, new Vector3D(10,0.1,1)));
@@ -35,6 +36,7 @@ public class Test {
         sciana2.addComponent(new AngularDynamics(0, 0));
         sciana2.addComponent(new LinearDynamics(new Vector3D(0,0), new Vector3D()));
         sciana2.addComponent(new Rigidbody(0, 0, new PhysicMaterial(0.6,0.5,0.3)));
+        sciana2.addComponent(new TeleportRock());
 
         GameObject skala = new GameObject("SKALA");
         skala.addComponent(new Transform(new Vector3D(600,200), 0, 5, false, false, new Vector3D(1.5,1,1)));
