@@ -10,7 +10,7 @@ public class RenderEngine extends Thread{
         renderPanel = new RenderPanel(scene);
         frame = new JFrame();
 
-        frame.setSize(900, 700);
+        frame.setSize(1100, 900);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
