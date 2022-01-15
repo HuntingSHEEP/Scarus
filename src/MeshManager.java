@@ -7,6 +7,5 @@ public class MeshManager {
             new Vector3D(-20,15),
             new Vector3D(0,-25),
             new Vector3D(20,15),
-            }));
-
+            new Vector3D(0, 20)}));
 }

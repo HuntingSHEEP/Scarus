@@ -47,16 +47,29 @@ public class ScarusEngine extends Thread{
         if(collisionList == null)
             return;
 
-        for(Collision collision : collisionList)
-            if(collision.aCollider.resolveCollision && collision.bCollider.resolveCollision){
+        if(collisionList.size() > 0){
+            System.out.println("DETECTED "+collisionList.size()+" COLLISIONS!");
+            for(Collision collision : collisionList){
+                System.out.println(collision.A.name+"  VS  "+collision.B.name);
+            }
+
+        }
+
+
+        //System.out.println("START COLLISION RESOLUTION");
+        for(Collision collision : collisionList) {
+            //System.out.println(collision.A.name +"  VS  "+collision.B.name);
+
+            if (collision.aCollider.resolveCollision && collision.bCollider.resolveCollision) {
                 moveObjectsApart(collision);
                 collision = findContactPoint(collision);
 
-                if(collision.P == null)
+                if (collision.P == null)
                     continue;
 
                 resolveDynamics(collision);
             }
+        }
     }
 
     private void resolveDynamics(Collision collision) {
@@ -290,6 +303,7 @@ public class ScarusEngine extends Thread{
 
     private void STEP_COLLISION_DETECTION() {
         //WYZNACZENIE UNIKALNYCH PAR OBIEKTÓW
+        collisionList = new ArrayList<>();
 
         for(int g=0; g<scene.getGameObjectList().size(); g++)
             for(int h=g+1; h<scene.getGameObjectList().size(); h++){
@@ -314,7 +328,7 @@ public class ScarusEngine extends Thread{
     ///////////////////////////////  COLLISIONS  /////////////////////////////////////
 
     private void collisionTest(GameObject A, GameObject B) {
-        collisionList = new ArrayList<>();
+
 
         List<Collider> aList = A.getComponentList(Collider.class);
         List<Collider> bList = B.getComponentList(Collider.class);
@@ -330,6 +344,8 @@ public class ScarusEngine extends Thread{
                         Collision collision = TEST_COLLISION_MESH(aCollider, bCollider);
                         if (collision.collided)
                             collisionList.add(collision);
+
+
                     }
                 }
 

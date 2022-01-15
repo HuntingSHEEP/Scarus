@@ -1,4 +1,6 @@
+import Colliders.Collider;
 import Colliders.Collision;
+import Colliders.MeshCollider;
 import Components.AngularDynamics;
 import Components.Component;
 import Components.LinearDynamics;
@@ -9,22 +11,33 @@ import InputInterface.KeyCode;
 import ScarMath.Vector3D;
 
 public class PlayerControl extends Component {
+    int linearAccelerationValue;
     double angularVelocityValue;
+
+    Vector3D objectLinearAcceleration;
     AngularDynamics angularDynamics;
+    Rigidbody collider;
+
 
     @Override
     public void awake() {
+        linearAccelerationValue = 3;
         angularVelocityValue    = 0.5f;
+
+        objectLinearAcceleration = gameObject.getComponent(LinearDynamics.class).acceleration;
         angularDynamics = gameObject.getComponent(AngularDynamics.class);
+        collider        = gameObject.getComponent(Rigidbody.class);
     }
 
     @Override
     public void update(double dt) {
+        manageWSAD();
         manageRotation();
+        collision();
     }
-/*
+
     private void collision() {
-        for(Collision collision : rigidBody.collisionList)
+        for(Collision collision : collider.collisionList)
             if (collision != null)
                 if (collision.collided) {
                     GameObject obiektKolizji = collision.A;
@@ -35,7 +48,29 @@ public class PlayerControl extends Component {
                 }
     }
 
- */
+
+
+    private void manageWSAD() {
+        if(Input.getKeyDown(KeyCode.W))
+            objectLinearAcceleration.add(new Vector3D(0, -linearAccelerationValue));
+        if(Input.getKeyReleased(KeyCode.W))
+            objectLinearAcceleration.add(new Vector3D(0, linearAccelerationValue));
+
+        if(Input.getKeyDown(KeyCode.S))
+            objectLinearAcceleration.add(new Vector3D(0, linearAccelerationValue));
+        if(Input.getKeyReleased(KeyCode.S))
+            objectLinearAcceleration.add(new Vector3D(0, -linearAccelerationValue));
+
+        if(Input.getKeyDown(KeyCode.A))
+            objectLinearAcceleration.add(new Vector3D(-linearAccelerationValue, 0));
+        if(Input.getKeyReleased(KeyCode.A))
+            objectLinearAcceleration.add(new Vector3D(linearAccelerationValue, 0));
+
+        if(Input.getKeyDown(KeyCode.D))
+            objectLinearAcceleration.add(new Vector3D(linearAccelerationValue, 0));
+        if(Input.getKeyReleased(KeyCode.D))
+            objectLinearAcceleration.add(new Vector3D(-linearAccelerationValue, 0));
+    }
 
     private void manageRotation() {
         if(Input.getKeyDown(KeyCode.Q))
