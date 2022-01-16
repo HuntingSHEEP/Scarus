@@ -49,7 +49,7 @@ public class Test {
         sciana3.addComponent(new TeleportRock());
 
         GameObject sciana4 = new GameObject("SCIANA");
-        sciana4.addComponent(new Transform(new Vector3D(30,440), 0, 5, true, true, new Vector3D(0.1,8,1)));
+        sciana4.addComponent(new Transform(new Vector3D(30,500), 0, 5, true, true, new Vector3D(0.1,8,1)));
         sciana4.addComponent(new MeshFilter(Mesh.QUAD));
         sciana4.addComponent(new MeshRenderer(Color.RED, 1f));
         sciana4.addComponent(new AngularDynamics(0, 0));
@@ -70,7 +70,7 @@ public class Test {
         skala.addComponent(s);
 
         GameObject skala2 = new GameObject("SKALA");
-        skala2.addComponent(new Transform(new Vector3D(700,250), 0, 5, false, false, new Vector3D(1.5,1.5,1)));
+        skala2.addComponent(new Transform(new Vector3D(100,250), 0, 5, false, false, new Vector3D(1.5,1.5,1)));
         skala2.addComponent(new MeshFilter(new Mesh(MeshManager.SKALA_1)));
         skala2.addComponent(new MeshRenderer(Color.ORANGE, 1f));
         skala2.addComponent(new AngularDynamics(0.1, 0));
@@ -78,7 +78,7 @@ public class Test {
         skala2.addComponent(new Rigidbody(0.1, 0.0001, new PhysicMaterial(0.6,0.5,0.3)));
 
         GameObject skala3 = new GameObject("SKALA");
-        skala3.addComponent(new Transform(new Vector3D(800,400), 0, 5, false, false, new Vector3D(1.5,1.5,1)));
+        skala3.addComponent(new Transform(new Vector3D(970,400), 0, 5, false, false, new Vector3D(1.5,1.5,1)));
         skala3.addComponent(new MeshFilter(new Mesh(MeshManager.SKALA_1)));
         skala3.addComponent(new MeshRenderer(Color.ORANGE, 1f));
         skala3.addComponent(new AngularDynamics(0.1, 0));
@@ -102,9 +102,9 @@ public class Test {
         scene.addGameObject(statek);
 
         scene.addGameObject(skala);
-//        scene.addGameObject(skala2);
-//        scene.addGameObject(skala3);
-//        scene.addGameObject(skala4);
+        scene.addGameObject(skala2);
+        scene.addGameObject(skala3);
+        scene.addGameObject(skala4);
 
         playerControl.scene = scene;
 
