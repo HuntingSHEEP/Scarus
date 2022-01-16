@@ -8,6 +8,7 @@ import EngineCore.GameObject;
 import InputInterface.Input;
 import InputInterface.KeyCode;
 import Rendering.Scene;
+import ScarMath.SMath;
 import ScarMath.Vector3D;
 
 import java.awt.*;
@@ -20,6 +21,7 @@ public class PlayerControl extends Component {
     AngularDynamics angularDynamics;
     Collider collider;
     Scene scene;
+    Transform transform;
 
 
     @Override
@@ -30,6 +32,7 @@ public class PlayerControl extends Component {
         objectLinearAcceleration = gameObject.getComponent(LinearDynamics.class).acceleration;
         angularDynamics = gameObject.getComponent(AngularDynamics.class);
         collider        = gameObject.getComponent(Rigidbody.class);
+        transform       = gameObject.getComponent(Transform.class);
     }
 
     @Override
@@ -98,12 +101,15 @@ public class PlayerControl extends Component {
     }
 
     private GameObject createPocisk() {
+        Vector3D speed = SMath.rotatePoint(new Vector3D(0,-1), new Vector3D(0,0,1), transform.rotation);
+
+
         GameObject pocisk = new GameObject("POCISK");
-        pocisk.addComponent(new Transform(new Vector3D(550,560), 0, 5, false, false, new Vector3D(0.2,0.2,1)));
+        pocisk.addComponent(new Transform(transform.position.copy(), 0, 5, false, false, new Vector3D(0.2,0.2,1)));
         pocisk.addComponent(new MeshFilter(Mesh.QUAD));
         pocisk.addComponent(new MeshRenderer(Color.GRAY, 1f));
         pocisk.addComponent(new AngularDynamics(0, 0));
-        pocisk.addComponent(new LinearDynamics(new Vector3D(0,-10), new Vector3D()));
+        pocisk.addComponent(new LinearDynamics(speed.multiply(20), new Vector3D()));
 
         return pocisk;
     }
