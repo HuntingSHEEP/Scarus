@@ -16,6 +16,7 @@ import java.awt.*;
 public class PlayerControl extends Component {
     int linearAccelerationValue;
     double angularVelocityValue;
+    int health;
 
     Vector3D objectLinearAcceleration;
     AngularDynamics angularDynamics;
@@ -33,6 +34,7 @@ public class PlayerControl extends Component {
         angularDynamics = gameObject.getComponent(AngularDynamics.class);
         collider        = gameObject.getComponent(Rigidbody.class);
         transform       = gameObject.getComponent(Transform.class);
+        health=5;
     }
 
     @Override
@@ -49,7 +51,7 @@ public class PlayerControl extends Component {
     }
 
     private void shoot() {
-        System.out.println("SHOOT");
+//        System.out.println("SHOOT");
         GameObject pocisk = createPocisk();
         scene.bufferGameObject(pocisk);
     }
@@ -109,8 +111,18 @@ public class PlayerControl extends Component {
         pocisk.addComponent(new MeshRenderer(Color.GRAY, 1f));
         pocisk.addComponent(new AngularDynamics(0, 0));
         pocisk.addComponent(new LinearDynamics(speed.multiply(50), new Vector3D()));
+        pocisk.addComponent(new MeshCollider(Mesh.QUAD));
 
         return pocisk;
+    }
+
+    public void hitByRock(){
+        takeHealth();
+        System.out.println("Collision with rock, health decreased to "+health);
+    }
+
+    public void takeHealth(){
+        health--;
     }
 
 }

@@ -58,17 +58,16 @@ public class TeleportRock extends Component{
                     if(x<400) x=400;
                     if(y<300) y=300;
 
-                    int directionX, directionY;
-                    directionX = gen.nextInt(2);
-                    directionY = gen.nextInt(2);
-                    if(directionX==2) directionX=-1;
-                    if(directionY==2) directionY=-1;
 
-                    Vector3D vector3D =  new Vector3D(x, y);
-                    vector3D.normalize();
-                    linearDynamics.velocity = vector3D;
+                    Vector3D vector3D = new Vector3D(x, y);
 
+//                    vector3D.normalize();
+//                    vector3D.multiply(25);
+//                    linearDynamics.velocity = vector3D;
 
+                    Vector3D srodek = Vector3D.minus(vector3D, transform.position);
+                    srodek.normalize();
+                    linearDynamics.velocity = srodek.multiply(20);
                 }
             }
         }
