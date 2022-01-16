@@ -32,7 +32,7 @@ public class TeleportRock extends Component{
                 System.out.println("Sciana: Detected collision with object [" + obiektKolizji.name +"]");
                 if(obiektKolizji.name.equals("SKALA")){ //JESLI ZDERZENIE JEST ZE SKALA TO TELEPORTUJEMY SKALE
                     Transform transform = obiektKolizji.getComponent(Transform.class); //obiekt transform przechowuje dane o pozycji obiektu, więc go pobieramy
-                    //transform.position = new Vector3D(100, 100);
+                    //transform.position = new Vector3D(100, 100); //
 
                 }
             }
