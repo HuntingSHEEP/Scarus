@@ -47,11 +47,40 @@ public class Test {
         skala.addComponent(new LinearDynamics(new Vector3D(-0.5,7), new Vector3D()));
         skala.addComponent(new Rigidbody(0.1, 0.0001, new PhysicMaterial(0.6,0.5,0.3)));
 
+        GameObject skala2 = new GameObject("SKALA");
+        skala2.addComponent(new Transform(new Vector3D(700,200), 0, 5, false, false, new Vector3D(1.5,1.5,1)));
+        skala2.addComponent(new MeshFilter(new Mesh(MeshManager.SKALA_1)));
+        skala2.addComponent(new MeshRenderer(Color.ORANGE, 1f));
+        skala2.addComponent(new AngularDynamics(0.1, 0));
+        skala2.addComponent(new LinearDynamics(new Vector3D(-0.5,7), new Vector3D()));
+        skala2.addComponent(new Rigidbody(0.1, 0.0001, new PhysicMaterial(0.6,0.5,0.3)));
+
+        GameObject skala3 = new GameObject("SKALA");
+        skala3.addComponent(new Transform(new Vector3D(800,200), 0, 5, false, false, new Vector3D(1.5,1.5,1)));
+        skala3.addComponent(new MeshFilter(new Mesh(MeshManager.SKALA_1)));
+        skala3.addComponent(new MeshRenderer(Color.ORANGE, 1f));
+        skala3.addComponent(new AngularDynamics(0.1, 0));
+        skala3.addComponent(new LinearDynamics(new Vector3D(-0.5,7), new Vector3D()));
+        skala3.addComponent(new Rigidbody(0.1, 0.0001, new PhysicMaterial(0.6,0.5,0.3)));
+
+        GameObject skala4 = new GameObject("SKALA");
+        skala4.addComponent(new Transform(new Vector3D(400,200), 0, 5, false, false, new Vector3D(1.5,1.5,1)));
+        skala4.addComponent(new MeshFilter(new Mesh(MeshManager.SKALA_1)));
+        skala4.addComponent(new MeshRenderer(Color.ORANGE, 1f));
+        skala4.addComponent(new AngularDynamics(0.1, 0));
+        skala4.addComponent(new LinearDynamics(new Vector3D(-0.5,7), new Vector3D()));
+        skala4.addComponent(new Rigidbody(0.1, 0.0001, new PhysicMaterial(0.6,0.5,0.3)));
+
         Scene scene = new Scene();
+
         scene.addGameObject(sciana);
         scene.addGameObject(sciana2);
         scene.addGameObject(statek);
-        //scene.addGameObject(skala);
+
+        scene.addGameObject(skala);
+        scene.addGameObject(skala2);
+        scene.addGameObject(skala3);
+        scene.addGameObject(skala4);
 
         playerControl.scene = scene;
 

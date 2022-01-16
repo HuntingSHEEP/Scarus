@@ -2,18 +2,22 @@ import Colliders.Rigidbody;
 import Components.Component;
 import Colliders.Collision;
 import Colliders.Collider;
+import Components.LinearDynamics;
 import Components.Transform;
 import EngineCore.GameObject;
 import ScarMath.Vector3D;
+import java.util.Random;
 
 
 public class TeleportRock extends Component{
 
     Collider collider;
+    //LinearDynamics linearDynamics;
 
     @Override
     public void awake() {
         collider = gameObject.getComponent(Rigidbody.class);
+        //linearDynamics = gameObject.getComponent(LinearDynamics.class);
     }
 
     @Override
@@ -32,7 +36,26 @@ public class TeleportRock extends Component{
                 System.out.println("Sciana: Detected collision with object [" + obiektKolizji.name +"]");
                 if(obiektKolizji.name.equals("SKALA")){ //JESLI ZDERZENIE JEST ZE SKALA TO TELEPORTUJEMY SKALE
                     Transform transform = obiektKolizji.getComponent(Transform.class); //obiekt transform przechowuje dane o pozycji obiektu, więc go pobieramy
-                    //transform.position = new Vector3D(100, 100); //
+                    //transform.position = new Vector3D(100, 100);
+                    //1100, 900
+                    //Vector3D srodek = new Vector3D(550, 450);
+
+                    Random gen = new Random();
+                    int x, y;
+
+                    do{
+                        x = gen.nextInt(1000);
+                        y = gen.nextInt(800);
+                    }while(x < 100 || y < 100);
+                    transform.position = new Vector3D(x, y);
+
+                    LinearDynamics linearDynamics = obiektKolizji.getComponent(LinearDynamics.class);
+                    //linearDynamics.velocity;
+
+                    x = gen.nextInt(7);
+                    y = gen.nextInt(6);
+
+                    linearDynamics.velocity = new Vector3D(x, y);
 
                 }
             }
