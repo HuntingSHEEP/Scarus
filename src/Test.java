@@ -40,7 +40,7 @@ public class Test {
         sciana2.addComponent(new TeleportRock());
 
         GameObject skala = new GameObject("SKALA");
-        skala.addComponent(new Transform(new Vector3D(600,200), 0, 5, false, false, new Vector3D(1.5,1.5,1)));
+        skala.addComponent(new Transform(new Vector3D(600,754), 0, 5, false, false, new Vector3D(1.5,1.5,1)));
         skala.addComponent(new MeshFilter(new Mesh(MeshManager.SKALA_1)));
         skala.addComponent(new MeshRenderer(Color.ORANGE, 1f));
         skala.addComponent(new AngularDynamics(0.1, 0));
@@ -48,7 +48,7 @@ public class Test {
         skala.addComponent(new Rigidbody(0.1, 0.0001, new PhysicMaterial(0.6,0.5,0.3)));
 
         GameObject skala2 = new GameObject("SKALA");
-        skala2.addComponent(new Transform(new Vector3D(700,200), 0, 5, false, false, new Vector3D(1.5,1.5,1)));
+        skala2.addComponent(new Transform(new Vector3D(700,250), 0, 5, false, false, new Vector3D(1.5,1.5,1)));
         skala2.addComponent(new MeshFilter(new Mesh(MeshManager.SKALA_1)));
         skala2.addComponent(new MeshRenderer(Color.ORANGE, 1f));
         skala2.addComponent(new AngularDynamics(0.1, 0));
@@ -56,7 +56,7 @@ public class Test {
         skala2.addComponent(new Rigidbody(0.1, 0.0001, new PhysicMaterial(0.6,0.5,0.3)));
 
         GameObject skala3 = new GameObject("SKALA");
-        skala3.addComponent(new Transform(new Vector3D(800,200), 0, 5, false, false, new Vector3D(1.5,1.5,1)));
+        skala3.addComponent(new Transform(new Vector3D(800,400), 0, 5, false, false, new Vector3D(1.5,1.5,1)));
         skala3.addComponent(new MeshFilter(new Mesh(MeshManager.SKALA_1)));
         skala3.addComponent(new MeshRenderer(Color.ORANGE, 1f));
         skala3.addComponent(new AngularDynamics(0.1, 0));
@@ -64,7 +64,7 @@ public class Test {
         skala3.addComponent(new Rigidbody(0.1, 0.0001, new PhysicMaterial(0.6,0.5,0.3)));
 
         GameObject skala4 = new GameObject("SKALA");
-        skala4.addComponent(new Transform(new Vector3D(400,200), 0, 5, false, false, new Vector3D(1.5,1.5,1)));
+        skala4.addComponent(new Transform(new Vector3D(400,150), 0, 5, false, false, new Vector3D(1.5,1.5,1)));
         skala4.addComponent(new MeshFilter(new Mesh(MeshManager.SKALA_1)));
         skala4.addComponent(new MeshRenderer(Color.ORANGE, 1f));
         skala4.addComponent(new AngularDynamics(0.1, 0));

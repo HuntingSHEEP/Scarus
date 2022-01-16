@@ -52,10 +52,22 @@ public class TeleportRock extends Component{
                     LinearDynamics linearDynamics = obiektKolizji.getComponent(LinearDynamics.class);
                     //linearDynamics.velocity;
 
-                    x = gen.nextInt(7);
-                    y = gen.nextInt(6);
+                    x = gen.nextInt(700);
+                    y = gen.nextInt(600);
 
-                    linearDynamics.velocity = new Vector3D(x, y);
+                    if(x<400) x=400;
+                    if(y<300) y=300;
+
+                    int directionX, directionY;
+                    directionX = gen.nextInt(2);
+                    directionY = gen.nextInt(2);
+                    if(directionX==2) directionX=-1;
+                    if(directionY==2) directionY=-1;
+
+                    Vector3D vector3D =  new Vector3D(x, y);
+                    vector3D.normalize();
+                    linearDynamics.velocity = vector3D;
+
 
                 }
             }
