@@ -26,6 +26,7 @@ public class ScarusEngine extends Thread{
         while(true){
             startTime();
 
+            STEP_UPDATE_SCENE();
             STEP_UPDATE();
             STEP_LINEAR_DYNAMICS();
             STEP_ANGULAR_DYNAMICS();
@@ -35,6 +36,14 @@ public class ScarusEngine extends Thread{
 
             stopTime();
         }
+    }
+
+    private void STEP_UPDATE_SCENE() {
+        //IF NEW GAME OBJECTS ADDED, THEN THEIR COMPONENTS NEED TO BE AWAKEN
+        scene.awakeBufferedObjects();
+
+        //THEN ADD THEM TO THE MAIN GAME OBJECT LIST
+        scene.update();
     }
 
     private void STEP_CLEAR_COLLIDERS() {
@@ -235,6 +244,7 @@ public class ScarusEngine extends Thread{
     }
 
     private void STEP_UPDATE() {
+        //UPDATE GAME OBJECTS
         for(GameObject gameObject : scene.getGameObjectList())
             for(Component component : gameObject.getComponentList())
                 component.update(deltaTime);
