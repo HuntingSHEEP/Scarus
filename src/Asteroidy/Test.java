@@ -1,16 +1,23 @@
-import Colliders.MeshCollider;
+package Asteroidy;
+
+import Asteroidy.MeshManager;
 import Colliders.Rigidbody;
 import Components.*;
 import EngineCore.*;
 import Rendering.RenderEngine;
 import Rendering.Scene;
 import ScarMath.Vector3D;
-import com.sun.jdi.ThreadReference;
 
 import java.awt.*;
 
 public class Test {
     public static void main(String[] args){
+
+        GameObject GoRockManager = new GameObject("GoRockManager");
+        RockManager rockManager = new RockManager();
+        GoRockManager.addComponent(rockManager);
+
+
         GameObject statek = new GameObject("STATEK");
         statek.addComponent(new Transform(new Vector3D(550,500), 0,5, false, false, new Vector3D(1,1.2,1)));
         statek.addComponent(new MeshFilter(new Mesh(MeshManager.SHIP)));
@@ -64,10 +71,10 @@ public class Test {
         skala.addComponent(new AngularDynamics(0.1, 0));
         skala.addComponent(new LinearDynamics(new Vector3D(-0.5,7), new Vector3D()));
         skala.addComponent(new Rigidbody(0.1, 0.0001, new PhysicMaterial(0.6,0.5,0.3)));
-        //skala.addComponent(new Shooted());
-        Shooted s = new Shooted();
-        s.setPlayerControl(playerControl);
-        skala.addComponent(s);
+        //skala.addComponent(new Asteroidy.Shooted());
+        Shooted shooted = new Shooted();
+        shooted.setPlayerControl(playerControl);
+        skala.addComponent(shooted);
 
         GameObject skala2 = new GameObject("SKALA");
         skala2.addComponent(new Transform(new Vector3D(100,250), 0, 5, false, false, new Vector3D(1.5,1.5,1)));
@@ -106,8 +113,14 @@ public class Test {
         scene.addGameObject(skala3);
         scene.addGameObject(skala4);*/
 
+        scene.addGameObject(GoRockManager);
+
         playerControl.scene = scene;
-        s.scene = scene;
+        shooted.scene = scene;
+        rockManager.playerControl = playerControl;
+        rockManager.scene = scene;
+        shooted.rockManager = rockManager;
+
 
         ScarusEngine scarusEngine = new ScarusEngine(scene);
         RenderEngine renderEngine = new RenderEngine(scene);

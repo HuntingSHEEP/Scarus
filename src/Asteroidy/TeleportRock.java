@@ -1,3 +1,5 @@
+package Asteroidy;
+
 import Colliders.Rigidbody;
 import Components.Component;
 import Colliders.Collision;

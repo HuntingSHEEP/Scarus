@@ -1,3 +1,5 @@
+package Asteroidy;
+
 import ScarMath.Vector3D;
 import java.util.ArrayList;
 import java.util.List;

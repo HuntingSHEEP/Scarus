@@ -1,3 +1,6 @@
+package Asteroidy;
+
+import Asteroidy.PlayerControl;
 import Colliders.Collider;
 import Colliders.Collision;
 import Colliders.Rigidbody;
@@ -10,6 +13,7 @@ public class Shooted extends Component {
     Collider collider;
     PlayerControl playerControl;
     Scene scene;
+    RockManager rockManager;
 
     @Override
     public void awake() {
@@ -54,6 +58,9 @@ public class Shooted extends Component {
 
     public void zderzenieZPociskiem(){
         //System.out.println("Rock is shooted");
+
         scene.bufferRemovedGameObject(gameObject);
+        rockManager.removeRock();
+
     }
 }

@@ -1,3 +1,5 @@
+package Asteroidy;
+
 import Colliders.Collider;
 import Colliders.Collision;
 import Colliders.MeshCollider;
@@ -27,7 +29,7 @@ public class PlayerControl extends Component {
 
     @Override
     public void awake() {
-        linearAccelerationValue = 3;
+        linearAccelerationValue = 10;
         angularVelocityValue    = 0.5f;
 
         objectLinearAcceleration = gameObject.getComponent(LinearDynamics.class).acceleration;
@@ -78,7 +80,6 @@ public class PlayerControl extends Component {
             objectLinearAcceleration.add(new Vector3D(0, linearAccelerationValue));
         if(Input.getKeyReleased(KeyCode.S))
             objectLinearAcceleration.add(new Vector3D(0, -linearAccelerationValue));
-
         if(Input.getKeyDown(KeyCode.A))
             objectLinearAcceleration.add(new Vector3D(-linearAccelerationValue, 0));
         if(Input.getKeyReleased(KeyCode.A))
@@ -94,12 +95,12 @@ public class PlayerControl extends Component {
         if(Input.getKeyDown(KeyCode.Q))
             angularDynamics.angularVelocity -= angularVelocityValue;
         if(Input.getKeyReleased(KeyCode.Q))
-            angularDynamics.angularVelocity += angularVelocityValue;
+            angularDynamics.angularVelocity = 0;
 
         if(Input.getKeyDown(KeyCode.E))
             angularDynamics.angularVelocity += angularVelocityValue;
         if(Input.getKeyReleased(KeyCode.E))
-            angularDynamics.angularVelocity -= angularVelocityValue;
+            angularDynamics.angularVelocity = 0;
     }
 
     private GameObject createPocisk() {
