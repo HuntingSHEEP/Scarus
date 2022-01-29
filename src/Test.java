@@ -102,11 +102,12 @@ public class Test {
         scene.addGameObject(statek);
 
         scene.addGameObject(skala);
-        scene.addGameObject(skala2);
+        /*scene.addGameObject(skala2);
         scene.addGameObject(skala3);
-        scene.addGameObject(skala4);
+        scene.addGameObject(skala4);*/
 
         playerControl.scene = scene;
+        s.scene = scene;
 
         ScarusEngine scarusEngine = new ScarusEngine(scene);
         RenderEngine renderEngine = new RenderEngine(scene);

@@ -64,7 +64,7 @@ public class PlayerControl extends Component {
                     if (obiektKolizji == gameObject)
                         obiektKolizji = collision.B;
 
-                    System.out.println("Detected collision with object [" + obiektKolizji.name +"]");
+                    //System.out.println("Detected collision with object [" + obiektKolizji.name +"]");
                 }
     }
 
@@ -118,7 +118,7 @@ public class PlayerControl extends Component {
 
     public void hitByRock(){
         takeHealth();
-        System.out.println("Collision with rock, health decreased to "+health);
+        //System.out.println("Collision with rock, health decreased to "+health);
     }
 
     public void takeHealth(){

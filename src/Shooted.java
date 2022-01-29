@@ -3,11 +3,13 @@ import Colliders.Collision;
 import Colliders.Rigidbody;
 import Components.Component;
 import EngineCore.GameObject;
+import Rendering.Scene;
 
 public class Shooted extends Component {
 
     Collider collider;
     PlayerControl playerControl;
+    Scene scene;
 
     @Override
     public void awake() {
@@ -18,6 +20,8 @@ public class Shooted extends Component {
     public void update(double dt) {
         isShooted();
     }
+
+
 
     public void setPlayerControl(PlayerControl playerControl){
         this.playerControl=playerControl;
@@ -43,12 +47,13 @@ public class Shooted extends Component {
     }
 
     public void zderzenieZeStatkiem(GameObject statek, GameObject skala){
-        System.out.println("Odjeto punkty zycia");
+        //System.out.println("Odjeto punkty zycia");
         //skala = null;
         playerControl.hitByRock();
     }
 
     public void zderzenieZPociskiem(){
-        System.out.println("Rock is shooted");
+        //System.out.println("Rock is shooted");
+        scene.bufferRemovedGameObject(gameObject);
     }
 }

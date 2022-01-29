@@ -9,10 +9,12 @@ import java.util.List;
 public class Scene{
     private List<GameObject> gameObjectList;
     private List<GameObject> bufferGameObjects;
+    private List<GameObject> bufferRemovedGameObjects;
 
     public Scene(){
         gameObjectList = new ArrayList<GameObject>();
         bufferGameObjects = new ArrayList<GameObject>();
+        bufferRemovedGameObjects = new ArrayList<GameObject>();
     }
 
     public void addGameObject(GameObject gameObject){
@@ -23,8 +25,8 @@ public class Scene{
         bufferGameObjects.add(gameObject);
     }
 
-    public void removeGameObject(int index){
-        gameObjectList.remove(index);
+    public void bufferRemovedGameObject(GameObject gameObject){
+        bufferRemovedGameObjects.add(gameObject);
     }
 
     public List<GameObject> getGameObjectList(){
@@ -42,8 +44,10 @@ public class Scene{
             gameObjectList.addAll(bufferGameObjects);
             bufferGameObjects.clear();
         }
+        if(bufferRemovedGameObjects.size() > 0){
+            System.out.println("usuwam gameobject");
+            gameObjectList.removeAll(bufferRemovedGameObjects);
+            bufferRemovedGameObjects.clear();
+        }
     }
-
-
-
 }
