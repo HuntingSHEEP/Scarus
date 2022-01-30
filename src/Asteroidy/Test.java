@@ -71,6 +71,7 @@ public class Test {
         skala.addComponent(new AngularDynamics(0.1, 0));
         skala.addComponent(new LinearDynamics(new Vector3D(-0.5,7), new Vector3D()));
         skala.addComponent(new Rigidbody(0.1, 0.0001, new PhysicMaterial(0.6,0.5,0.3)));
+        //skala.addComponent(new RockManager());
         //skala.addComponent(new Asteroidy.Shooted());
         Shooted shooted = new Shooted();
         shooted.setPlayerControl(playerControl);
@@ -120,6 +121,7 @@ public class Test {
         rockManager.playerControl = playerControl;
         rockManager.scene = scene;
         shooted.rockManager = rockManager;
+        playerControl.rockManager = rockManager;
 
 
         ScarusEngine scarusEngine = new ScarusEngine(scene);

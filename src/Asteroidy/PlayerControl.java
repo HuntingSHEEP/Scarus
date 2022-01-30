@@ -25,6 +25,7 @@ public class PlayerControl extends Component {
     Collider collider;
     Scene scene;
     Transform transform;
+    RockManager rockManager;
 
 
     @Override
@@ -32,17 +33,19 @@ public class PlayerControl extends Component {
         linearAccelerationValue = 10;
         angularVelocityValue    = 0.5f;
 
+
         objectLinearAcceleration = gameObject.getComponent(LinearDynamics.class).acceleration;
         angularDynamics = gameObject.getComponent(AngularDynamics.class);
         collider        = gameObject.getComponent(Rigidbody.class);
         transform       = gameObject.getComponent(Transform.class);
-        health=5;
+        health = 4;
     }
 
     @Override
     public void update(double dt) {
         manageWSAD();
         manageRotation();
+        setRotation();
         manageShooting();
         collision();
     }
@@ -65,7 +68,12 @@ public class PlayerControl extends Component {
                     GameObject obiektKolizji = collision.A;
                     if (obiektKolizji == gameObject)
                         obiektKolizji = collision.B;
-
+                    if(obiektKolizji.name.equals("SKALA")) {
+                        rockManager.removeRock();
+                        scene.bufferRemovedGameObject(obiektKolizji);
+                        takeHealth();
+                        System.out.println("zycie statku " + health);
+                    }
                     //System.out.println("Detected collision with object [" + obiektKolizji.name +"]");
                 }
     }
@@ -103,6 +111,21 @@ public class PlayerControl extends Component {
             angularDynamics.angularVelocity = 0;
     }
 
+    private void setRotation(){
+        Vector3D w = Vector3D.minus(Input.getMouseCords(), transform.position);
+        double w_length = Math.abs(Math.sqrt(w.x * w.x + w.y * w.y));
+        double katRad = Math.acos((Vector3D.dot(new Vector3D(0,-1), w)/( w_length)));
+        double katStopnie = (180 * katRad)/Math.PI;
+        if(transform.position.x < Input.getMouseCords().x)
+        {
+            transform.rotation = katRad;
+        }
+        else
+        {
+            transform.rotation = 2*Math.PI - katRad;
+        }
+    }
+
     private GameObject createPocisk() {
         Vector3D speed = SMath.rotatePoint(new Vector3D(0,-1), new Vector3D(0,0,1), transform.rotation);
 
@@ -124,6 +147,25 @@ public class PlayerControl extends Component {
 
     public void takeHealth(){
         health--;
+        switch (health)
+        {
+            case 3:
+                changeCollor(Color.yellow);
+                break;
+            case 2:
+                changeCollor(Color.orange);
+                break;
+            case 1:
+                changeCollor(Color.red);
+                break;
+        }
+    }
+
+    public void changeCollor(Color kolor)
+    {
+        GameObject statek = collider.gameObject;
+        MeshRenderer meshStatku = statek.getComponent(MeshRenderer.class);
+        meshStatku.setColor(kolor);
     }
 
 }

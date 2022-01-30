@@ -17,7 +17,6 @@ public class RockManager extends Component {
     int rockQuantity = 1;
     @Override
     public void awake() {
-
     }
 
     @Override
@@ -32,8 +31,9 @@ public class RockManager extends Component {
             skala = createRock();
             scene.bufferGameObject(skala);
         }
-
     }
+
+
     public GameObject createRock()
     {
         Random rand = new Random();
@@ -53,6 +53,7 @@ public class RockManager extends Component {
         shooted.rockManager = this;
         return skala;
     }
+
     public void removeRock()
     {
         this.rockQuantity -= 1;

@@ -8,8 +8,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 
-public class RenderPanel extends JPanel implements KeyListener {
+public class RenderPanel extends JPanel implements KeyListener, MouseMotionListener {
     private Scene scene;
     public RenderPanel(Scene scene){
         super();
@@ -18,6 +20,8 @@ public class RenderPanel extends JPanel implements KeyListener {
         setLayout(null);
         setFocusable(true);
         addKeyListener(this);
+        addMouseMotionListener(this);
+
 
         this.scene = scene;
     }
@@ -54,4 +58,12 @@ public class RenderPanel extends JPanel implements KeyListener {
     public void keyReleased(KeyEvent e) {
         Input.setKeyReleased(e.getKeyCode());
     }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) { Input.setMouseCords(e.getX(), e.getY()); }
 }

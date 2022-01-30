@@ -1,5 +1,7 @@
 package InputInterface;
 
+import ScarMath.Vector3D;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,9 @@ public class Input {
     private static double AXIS_HORIZONTAL   = 0f;
     private static double AXIS_VERTICAL     = 0f;
 
+    private static int MOUSE_X;
+    private static int MOUSE_Y;
+
     public static void setKeyPressed(int keyPressed){
         if((!downList.contains((Integer) keyPressed)) && (!pressedList.contains((Integer) keyPressed))){
             downList.add(keyPressed);
@@ -26,6 +31,16 @@ public class Input {
         }else{
             downList.remove((Integer) keyPressed);
         }
+    }
+
+    public static void setMouseCords(int x, int y)
+    {
+        MOUSE_X = x;
+        MOUSE_Y = y;
+    }
+    public static Vector3D getMouseCords()
+    {
+        return new Vector3D(MOUSE_X, MOUSE_Y);
     }
 
     public static boolean getKeyPressed(int key){

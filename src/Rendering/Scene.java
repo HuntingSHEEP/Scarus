@@ -50,5 +50,6 @@ public class Scene{
             gameObjectList.removeAll(bufferRemovedGameObjects);
             bufferRemovedGameObjects.clear();
         }
+
     }
 }

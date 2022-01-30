@@ -14,6 +14,7 @@ import java.util.Random;
 public class TeleportRock extends Component{
 
     Collider collider;
+    PlayerControl playerControl;
     //LinearDynamics linearDynamics;
 
     @Override
@@ -34,6 +35,9 @@ public class TeleportRock extends Component{
                 if(obiektKolizji == gameObject){ //JEŚLI POBRANY OBIEKT KOLIZJI JEST RODZICEM NASZEGO SKRYPTU TO ZAMIENIAMY NA TEN DRUGI -> SKAŁA/STATEK
                     obiektKolizji = collission.B;
                 }
+
+
+
                 //ściana
                 //System.out.println("Sciana: Detected collision with object [" + obiektKolizji.name +"]");
                 if(obiektKolizji.name.equals("SKALA")){ //JESLI ZDERZENIE JEST ZE SKALA TO TELEPORTUJEMY SKALE

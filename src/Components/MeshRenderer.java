@@ -66,4 +66,8 @@ public class MeshRenderer extends Component {
         return color;
     }
     public Stroke getStroke() { return stroke;}
+    public void setColor(Color kolor) {
+        color = kolor;
+    }
+    public void setStroke(Stroke stroke) { this.stroke = stroke;}
 }
