@@ -14,6 +14,7 @@ public class Shooted extends Component {
     PlayerControl playerControl;
     Scene scene;
     RockManager rockManager;
+    public static int zbiteSkaly = 0;
 
     @Override
     public void awake() {
@@ -41,24 +42,16 @@ public class Shooted extends Component {
                     parent = collision.A;
                 }
 
-                if(object.name.equals("STATEK")){
-                    zderzenieZeStatkiem(object, parent);
-                }else if(object.name.equals("POCISK")){
+                if(object.name.equals("POCISK")){
                     zderzenieZPociskiem();
                 }
             }
         }
     }
 
-    public void zderzenieZeStatkiem(GameObject statek, GameObject skala){
-        //System.out.println("Odjeto punkty zycia");
-        //skala = null;
-        playerControl.hitByRock();
-    }
-
     public void zderzenieZPociskiem(){
         //System.out.println("Rock is shooted");
-
+        zbiteSkaly++;
         scene.bufferRemovedGameObject(gameObject);
         rockManager.removeRock();
 

@@ -3,6 +3,7 @@ package Rendering;
 import EngineCore.GameObject;
 import Components.MeshRenderer;
 import InputInterface.Input;
+import Asteroidy.Shooted;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+
 
 public class RenderPanel extends JPanel implements KeyListener, MouseMotionListener {
     private Scene scene;
@@ -37,6 +39,11 @@ public class RenderPanel extends JPanel implements KeyListener, MouseMotionListe
                 renderMesh(g, meshRenderer);
 
         }
+        Graphics2D g2d = (Graphics2D) g;
+        String score = "Score: " + Shooted.zbiteSkaly;
+        g2d.setFont(new Font(null, Font.BOLD, 26));
+        g2d.setColor(Color.white);
+        g2d.drawString(score, 10, 20);
     }
 
     private void renderMesh(Graphics g, MeshRenderer meshRenderer) {

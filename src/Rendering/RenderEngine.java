@@ -15,6 +15,7 @@ public class RenderEngine extends Thread{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         frame.add(renderPanel);
+        frame.setResizable(false);
     }
 
 

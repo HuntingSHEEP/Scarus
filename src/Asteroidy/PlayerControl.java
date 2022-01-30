@@ -20,6 +20,7 @@ public class PlayerControl extends Component {
     double angularVelocityValue;
     int health;
 
+
     Vector3D objectLinearAcceleration;
     AngularDynamics angularDynamics;
     Collider collider;
@@ -141,19 +142,20 @@ public class PlayerControl extends Component {
     }
 
     public void hitByRock(){
-        takeHealth();
+        //takeHealth();
         //System.out.println("Collision with rock, health decreased to "+health);
     }
 
     public void takeHealth(){
         health--;
+        System.out.println("odejmuje zycie");
         switch (health)
         {
             case 3:
                 changeCollor(Color.yellow);
                 break;
             case 2:
-                changeCollor(Color.orange);
+                changeCollor(new Color(222, 104, 0, 250));
                 break;
             case 1:
                 changeCollor(Color.red);

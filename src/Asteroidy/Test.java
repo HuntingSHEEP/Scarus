@@ -29,7 +29,7 @@ public class Test {
         statek.addComponent(playerControl);
 
         GameObject sciana = new GameObject("SCIANA");
-        sciana.addComponent(new Transform(new Vector3D(550,60), 0, 5, true, true, new Vector3D(10,0.1,1)));
+        sciana.addComponent(new Transform(new Vector3D(550,0), 0, 5, true, true, new Vector3D(10.5,0.01,1)));
         sciana.addComponent(new MeshFilter(Mesh.QUAD));
         sciana.addComponent(new MeshRenderer(Color.RED, 1f));
         sciana.addComponent(new AngularDynamics(0, 0));
@@ -38,7 +38,7 @@ public class Test {
         sciana.addComponent(new TeleportRock());
 
         GameObject sciana2 = new GameObject("SCIANA");
-        sciana2.addComponent(new Transform(new Vector3D(550,800), 0, 5, true, true, new Vector3D(10,0.1,1)));
+        sciana2.addComponent(new Transform(new Vector3D(550,865), 0, 5, true, true, new Vector3D(10.5,0.1,1)));
         sciana2.addComponent(new MeshFilter(Mesh.QUAD));
         sciana2.addComponent(new MeshRenderer(Color.RED, 1f));
         sciana2.addComponent(new AngularDynamics(0, 0));
@@ -47,7 +47,7 @@ public class Test {
         sciana2.addComponent(new TeleportRock());
 
         GameObject sciana3 = new GameObject("SCIANA");
-        sciana3.addComponent(new Transform(new Vector3D(1070,440), 0, 5, true, true, new Vector3D(0.1,8,1)));
+        sciana3.addComponent(new Transform(new Vector3D(1090,435), 0, 5, true, true, new Vector3D(0.1,8.5,1)));
         sciana3.addComponent(new MeshFilter(Mesh.QUAD));
         sciana3.addComponent(new MeshRenderer(Color.RED, 1f));
         sciana3.addComponent(new AngularDynamics(0, 0));
@@ -56,7 +56,7 @@ public class Test {
         sciana3.addComponent(new TeleportRock());
 
         GameObject sciana4 = new GameObject("SCIANA");
-        sciana4.addComponent(new Transform(new Vector3D(30,500), 0, 5, true, true, new Vector3D(0.1,8,1)));
+        sciana4.addComponent(new Transform(new Vector3D(0,435), 0, 5, true, true, new Vector3D(0.01,8.5,1)));
         sciana4.addComponent(new MeshFilter(Mesh.QUAD));
         sciana4.addComponent(new MeshRenderer(Color.RED, 1f));
         sciana4.addComponent(new AngularDynamics(0, 0));
@@ -109,10 +109,11 @@ public class Test {
         scene.addGameObject(sciana4);
         scene.addGameObject(statek);
 
-        scene.addGameObject(skala);
+        //scene.addGameObject(skala);
         /*scene.addGameObject(skala2);
         scene.addGameObject(skala3);
         scene.addGameObject(skala4);*/
+
 
         scene.addGameObject(GoRockManager);
 
@@ -122,6 +123,11 @@ public class Test {
         rockManager.scene = scene;
         shooted.rockManager = rockManager;
         playerControl.rockManager = rockManager;
+
+        rockManager.createRock();
+        rockManager.createRock();
+        rockManager.createRock();
+        rockManager.createRock();
 
 
         ScarusEngine scarusEngine = new ScarusEngine(scene);

@@ -27,12 +27,13 @@ public class ScarusEngine extends Thread{
             startTime();
 
             STEP_UPDATE_SCENE();
-            STEP_UPDATE();
+
             STEP_LINEAR_DYNAMICS();
             STEP_ANGULAR_DYNAMICS();
             STEP_CLEAR_COLLIDERS();
             STEP_COLLISION_DETECTION();
             STEP_COLLISION_RESOLUTION();
+            STEP_UPDATE();
 
             stopTime();
         }
