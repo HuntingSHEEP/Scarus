@@ -90,7 +90,7 @@ public class RockManager extends Component {
 
         for(int i = 1; i <= ilosc; i++)
         {
-            createRock();
+           //createRock();
         }
 
 

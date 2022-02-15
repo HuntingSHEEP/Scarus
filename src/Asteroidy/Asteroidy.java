@@ -1,6 +1,5 @@
 package Asteroidy;
 
-import Asteroidy.MeshManager;
 import Colliders.Rigidbody;
 import Components.*;
 import EngineCore.*;
@@ -10,7 +9,7 @@ import ScarMath.Vector3D;
 
 import java.awt.*;
 
-public class Test {
+public class Asteroidy {
     public static void main(String[] args){
 
         GameObject GoRockManager = new GameObject("GoRockManager");

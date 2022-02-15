@@ -100,22 +100,27 @@ public class ScarusEngine extends Thread{
         double bOmega = B.gameObject.getComponent(AngularDynamics.class).angularVelocity;
         double aOmega = A.gameObject.getComponent(AngularDynamics.class).angularVelocity;
 
+        //Prędkość punktu P: predkość P w odniesieniu do B (prędkość liniowa + kątowa) minus P w odniesieniu do A (prędkość liniowa + kątowa)
         Vec2 rv = Bvelocity.add( Vec2.cross((float) bOmega, rb, new Vec2() ) ).subi( Avelocity ).subi( Vec2.cross((float) aOmega, ra, new Vec2() ) );
         float contactVel = Vec2.dot( rv, normal );
 
+        //Jeżeli wartość prędkości jest ujemna, znaczy że ciała się rozchodzą - nie aplikujemy impulsów
         if (contactVel > 0)
         {
             return;
         }
 
+        //uproszczony iloczyn wektorowy -> liczony jest wyłącznie 3 składnik, wartość wzdłuż osi Z
+        //wygląda jak moment obrotowy ale zależy od normalnej (czyli stałej wartości) oraz wektora do punktu P, więc też stałej
         float raCrossN = Vec2.cross( ra, normal );
         float rbCrossN = Vec2.cross( rb, normal );
 
         float AinvInertia = (float) (A.invertedInertia);
         float BinvInertia = (float) (B.invertedInertia);
 
-        float invMassSum = (float) (A.invertedMass + B.invertedMass + (raCrossN * raCrossN) * AinvInertia + (rbCrossN * rbCrossN) * BinvInertia);
+
         float j = -(1.0f + e) * contactVel;
+        float invMassSum = (float) (A.invertedMass + B.invertedMass + (raCrossN * raCrossN) * AinvInertia + (rbCrossN * rbCrossN) * BinvInertia);
         j /= invMassSum;
 
         Vec2 impulse = normal.mul( j );
@@ -133,19 +138,13 @@ public class ScarusEngine extends Thread{
         if(!B.rotationFixed())
             B.gameObject.getComponent(AngularDynamics.class).angularVelocity += B.invertedInertia * Vec2.cross(rb, impulse);
 
+        //JAK DOTĄÐ W MIARĘ JEST JASNE
 
-        //if(!A.isFixed()){
-        //    A.gameObject.getComponent(LinearDynamics.class).velocity.add(AimpulsV);
-       //     A.gameObject.getComponent(AngularDynamics.class).angularVelocity += A.invertedInertia * Vec2.cross(ra, impulse.neg());
-       // }
 
-        //if(!B.isFixed()){
-         //   B.gameObject.getComponent(LinearDynamics.class).velocity.add(BimpulsV);
-          //  B.gameObject.getComponent(AngularDynamics.class).angularVelocity += B.invertedInertia * Vec2.cross(rb, impulse);
-        //}
-
+        //TARCIE
         Bvelocity = new Vec2(bV.x.floatValue(), bV.y.floatValue());
         Avelocity = new Vec2(aV.x.floatValue(), aV.y.floatValue());
+        //To już było w linijce 108
         rv = Bvelocity.add( Vec2.cross((float) B.gameObject.getComponent(AngularDynamics.class).angularVelocity, rb, new Vec2() ) ).subi( Avelocity ).subi( Vec2.cross((float) A.gameObject.getComponent(AngularDynamics.class).angularVelocity, ra, new Vec2() ) );
 
         Vec2 t = new Vec2( rv );
@@ -161,7 +160,9 @@ public class ScarusEngine extends Thread{
             return;
         }
 
+        //Współczynnik tarcia statycznego
         float sf = (float)StrictMath.sqrt( A.physicMaterial.staticFriction * A.physicMaterial.staticFriction + B.physicMaterial.staticFriction * B.physicMaterial.staticFriction);
+        //Współczynnik tarcia dynamicznego
         float df = (float)StrictMath.sqrt( A.physicMaterial.dynamicFriction * A.physicMaterial.dynamicFriction + B.physicMaterial.dynamicFriction * B.physicMaterial.dynamicFriction);
 
         // Coulumb's law
@@ -186,21 +187,11 @@ public class ScarusEngine extends Thread{
         if(!A.rotationFixed())
             A.gameObject.getComponent(AngularDynamics.class).angularVelocity += A.invertedInertia * Vec2.cross(ra, tangentImpulse.neg());
 
-        //if(!A.isFixed()){
-         //   A.gameObject.getComponent(LinearDynamics.class).velocity.add(AimpulsV);
-          //  A.gameObject.getComponent(AngularDynamics.class).angularVelocity += A.invertedInertia * Vec2.cross(ra, tangentImpulse.neg());
-        //}
-
         if(!B.positionFixed())
             B.gameObject.getComponent(LinearDynamics.class).velocity.add(BimpulsV);
         if(!B.rotationFixed())
             B.gameObject.getComponent(AngularDynamics.class).angularVelocity += B.invertedInertia * Vec2.cross(rb, tangentImpulse);
 
-
-       // if(!B.isFixed()){
-        //    B.gameObject.getComponent(LinearDynamics.class).velocity.add(BimpulsV);
-         //   B.gameObject.getComponent(AngularDynamics.class).angularVelocity += B.invertedInertia * Vec2.cross(rb, tangentImpulse);
-        //}
     }
 
     private Collision findContactPoint(Collision collision) {
