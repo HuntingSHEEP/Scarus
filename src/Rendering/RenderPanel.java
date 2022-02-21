@@ -39,11 +39,11 @@ public class RenderPanel extends JPanel implements KeyListener, MouseMotionListe
                 renderMesh(g, meshRenderer);
 
         }
-        Graphics2D g2d = (Graphics2D) g;
-        String score = "Score: " + Shooted.zbiteSkaly;
-        g2d.setFont(new Font(null, Font.BOLD, 26));
-        g2d.setColor(Color.white);
-        g2d.drawString(score, 10, 20);
+        //Graphics2D g2d = (Graphics2D) g;
+        //String score = "Score: " + Shooted.zbiteSkaly;
+        //g2d.setFont(new Font(null, Font.BOLD, 26));
+        //g2d.setColor(Color.white);
+       // g2d.drawString(score, 10, 20);
     }
 
     private void renderMesh(Graphics g, MeshRenderer meshRenderer) {

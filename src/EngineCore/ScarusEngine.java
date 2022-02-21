@@ -110,7 +110,7 @@ public class ScarusEngine extends Thread{
             return;
         }
 
-        //uproszczony iloczyn wektorowy -> liczony jest wyłącznie 3 składnik, wartość wzdłuż osi Z
+        //uproszczony iloczyn wektorowy -> liczony jest wyłącznie trzeci składnik, wartość wzdłuż osi Z
         //wygląda jak moment obrotowy ale zależy od normalnej (czyli stałej wartości) oraz wektora do punktu P, więc też stałej
         float raCrossN = Vec2.cross( ra, normal );
         float rbCrossN = Vec2.cross( rb, normal );
@@ -151,7 +151,12 @@ public class ScarusEngine extends Thread{
         t.addsi( normal, -Vec2.dot( rv, normal ) );
         t.normalize();
 
-        float jt = -Vec2.dot( rv, t );
+        float raCrossT = Vec2.cross( ra, t );
+        float rbCrossT = Vec2.cross( rb, t );
+
+        float jt = -Vec2.dot( rv, t )*(1.0f + e);
+        //można też zostawić stare invMassSum - niewiele to zmienia
+        invMassSum = (float) (A.invertedMass + B.invertedMass + (raCrossT * raCrossT) * AinvInertia + (rbCrossT * rbCrossT) * BinvInertia);
         jt /= invMassSum;
         //jt /= contactCount;
 
@@ -175,12 +180,14 @@ public class ScarusEngine extends Thread{
         }
         else
         {
+
             // tangentImpulse = t * -j * df;
             tangentImpulse = t.mul( j ).muli( -df );
         }
 
         AimpulsV = new Vector3D(tangentImpulse.neg().x * A.invertedMass, tangentImpulse.neg().y * A.invertedMass);
         BimpulsV = new Vector3D(tangentImpulse.x * B.invertedMass, tangentImpulse.y * B.invertedMass);
+        System.out.println("Bv "+BimpulsV);
 
         if(!A.positionFixed())
             A.gameObject.getComponent(LinearDynamics.class).velocity.add(AimpulsV);
@@ -191,6 +198,7 @@ public class ScarusEngine extends Thread{
             B.gameObject.getComponent(LinearDynamics.class).velocity.add(BimpulsV);
         if(!B.rotationFixed())
             B.gameObject.getComponent(AngularDynamics.class).angularVelocity += B.invertedInertia * Vec2.cross(rb, tangentImpulse);
+
 
     }
 
