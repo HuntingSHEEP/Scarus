@@ -63,7 +63,7 @@ public class RockManager extends Component {
             }
         }
         GameObject skala = new GameObject("SKALA");
-        skala.addComponent(new Transform(new Vector3D(x, y), 0, 5, false, false, new Vector3D(1.5,1.5,1)));
+        skala.addComponent(new Transform(new Vector3D(x, y), 0, 5, false, false, new Vector3D(1,1,1)));
         skala.addComponent(new MeshFilter(new Mesh(MeshManager.SKALA_1)));
         skala.addComponent(new MeshRenderer(Color.ORANGE, 1f));
         skala.addComponent(new AngularDynamics(0.1, 0));
@@ -76,7 +76,7 @@ public class RockManager extends Component {
         shooted.rockManager = this;
         scene.bufferGameObject(skala);
         rockQuantity++;
-        System.out.println("ilosc " + rockQuantity);
+        //System.out.println("ilosc " + rockQuantity);
 
     }
 
@@ -84,16 +84,8 @@ public class RockManager extends Component {
     {
         rockQuantity -= 1;
 
-        Random rand = new Random();
-        int ilosc = rand.nextInt(3);
-        if(ilosc == 0){ ilosc = 1;}
-
-        for(int i = 1; i <= ilosc; i++)
-        {
-           //createRock();
-        }
-
-
+        if(rockQuantity < 3)
+            createRock();
     }
 
 }

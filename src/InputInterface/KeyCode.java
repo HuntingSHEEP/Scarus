@@ -30,6 +30,8 @@ public class KeyCode {
     public static final int Y = 89;
     public static final int Z = 90;
 
+    public static final int LPM           = 1;
+    public static final int PPM           = 3;
     public static final int SPACE         = 32;
     public static final int ARROW_UP      = 38;
     public static final int ARROW_DOWN    = 40;

@@ -154,9 +154,9 @@ public class ScarusEngine extends Thread{
         float raCrossT = Vec2.cross( ra, t );
         float rbCrossT = Vec2.cross( rb, t );
 
-        float jt = -Vec2.dot( rv, t )*(1.0f + e);
+        float jt = -Vec2.dot( rv, t );//*(1.0f + e);
         //można też zostawić stare invMassSum - niewiele to zmienia
-        invMassSum = (float) (A.invertedMass + B.invertedMass + (raCrossT * raCrossT) * AinvInertia + (rbCrossT * rbCrossT) * BinvInertia);
+        //invMassSum = (float) (A.invertedMass + B.invertedMass + (raCrossT * raCrossT) * AinvInertia + (rbCrossT * rbCrossT) * BinvInertia);
         jt /= invMassSum;
         //jt /= contactCount;
 
@@ -187,7 +187,7 @@ public class ScarusEngine extends Thread{
 
         AimpulsV = new Vector3D(tangentImpulse.neg().x * A.invertedMass, tangentImpulse.neg().y * A.invertedMass);
         BimpulsV = new Vector3D(tangentImpulse.x * B.invertedMass, tangentImpulse.y * B.invertedMass);
-        System.out.println("Bv "+BimpulsV);
+        //System.out.println("Bv "+BimpulsV);
 
         if(!A.positionFixed())
             A.gameObject.getComponent(LinearDynamics.class).velocity.add(AimpulsV);

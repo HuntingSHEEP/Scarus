@@ -52,8 +52,11 @@ public class PlayerControl extends Component {
     }
 
     private void manageShooting() {
-        if(Input.getKeyDown(KeyCode.SPACE))
+        if(Input.getKeyDown(KeyCode.LPM))
             shoot();
+
+       // if(Input.getKeyDown(KeyCode.SPACE))
+          //  shoot();
     }
 
     private void shoot() {
@@ -73,7 +76,7 @@ public class PlayerControl extends Component {
                         rockManager.removeRock();
                         scene.bufferRemovedGameObject(obiektKolizji);
                         takeHealth();
-                        System.out.println("zycie statku " + health);
+                        //System.out.println("zycie statku " + health);
                     }
                     //System.out.println("Detected collision with object [" + obiektKolizji.name +"]");
                 }
@@ -148,7 +151,7 @@ public class PlayerControl extends Component {
 
     public void takeHealth(){
         health--;
-        System.out.println("odejmuje zycie");
+        //System.out.println("odejmuje zycie");
         switch (health)
         {
             case 3:

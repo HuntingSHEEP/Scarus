@@ -43,17 +43,17 @@ public class Shooted extends Component {
                 }
 
                 if(object.name.equals("POCISK")){
-                    zderzenieZPociskiem();
+                    zderzenieZPociskiem(object);
                 }
             }
         }
     }
 
-    public void zderzenieZPociskiem(){
+    public void zderzenieZPociskiem(GameObject pocisk){
         //System.out.println("Rock is shooted");
         zbiteSkaly++;
         scene.bufferRemovedGameObject(gameObject);
         rockManager.removeRock();
-
+        scene.bufferRemovedGameObject(pocisk);
     }
 }

@@ -46,7 +46,7 @@ public class Scene{
             bufferGameObjects.clear();
         }
         if(bufferRemovedGameObjects.size() > 0){
-            System.out.println("usuwam gameobject");
+            //System.out.println("usuwam gameobject");
             gameObjectList.removeAll(bufferRemovedGameObjects);
             bufferRemovedGameObjects.clear();
         }

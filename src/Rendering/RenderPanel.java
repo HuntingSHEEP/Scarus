@@ -6,6 +6,7 @@ import InputInterface.Input;
 import Asteroidy.Shooted;
 
 import javax.swing.*;
+import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -13,7 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
 
-public class RenderPanel extends JPanel implements KeyListener, MouseMotionListener {
+public class RenderPanel extends JPanel implements KeyListener, MouseMotionListener, MouseInputListener {
     private Scene scene;
     public RenderPanel(Scene scene){
         super();
@@ -23,6 +24,7 @@ public class RenderPanel extends JPanel implements KeyListener, MouseMotionListe
         setFocusable(true);
         addKeyListener(this);
         addMouseMotionListener(this);
+        addMouseListener(this);
 
 
         this.scene = scene;
@@ -57,8 +59,7 @@ public class RenderPanel extends JPanel implements KeyListener, MouseMotionListe
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-        Input.setKeyPressed(e.getKeyCode());
+    public void keyPressed(KeyEvent e) {Input.setKeyPressed(e.getKeyCode());
     }
 
     @Override
@@ -73,4 +74,29 @@ public class RenderPanel extends JPanel implements KeyListener, MouseMotionListe
 
     @Override
     public void mouseMoved(MouseEvent e) { Input.setMouseCords(e.getX(), e.getY()); }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        System.out.println(e.getButton());
+        Input.setKeyPressed(e.getButton());
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        Input.setKeyReleased(e.getButton());
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
 }
