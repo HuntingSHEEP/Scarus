@@ -138,7 +138,6 @@ public class ScarusEngine extends Thread{
         if(!B.rotationFixed())
             B.gameObject.getComponent(AngularDynamics.class).angularVelocity += B.invertedInertia * Vec2.cross(rb, impulse);
 
-        //JAK DOTĄÐ W MIARĘ JEST JASNE
 
 
         //TARCIE
@@ -156,7 +155,7 @@ public class ScarusEngine extends Thread{
 
         float jt = -Vec2.dot( rv, t );//*(1.0f + e);
         //można też zostawić stare invMassSum - niewiele to zmienia
-        //invMassSum = (float) (A.invertedMass + B.invertedMass + (raCrossT * raCrossT) * AinvInertia + (rbCrossT * rbCrossT) * BinvInertia);
+        invMassSum = (float) (A.invertedMass + B.invertedMass + (raCrossT * raCrossT) * AinvInertia + (rbCrossT * rbCrossT) * BinvInertia);
         jt /= invMassSum;
         //jt /= contactCount;
 
@@ -180,7 +179,6 @@ public class ScarusEngine extends Thread{
         }
         else
         {
-
             // tangentImpulse = t * -j * df;
             tangentImpulse = t.mul( j ).muli( -df );
         }

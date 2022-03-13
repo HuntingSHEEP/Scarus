@@ -5,6 +5,7 @@ import Components.*;
 import Components.Component;
 import EngineCore.GameObject;
 import Rendering.Scene;
+import ScarMath.SMath;
 import ScarMath.Vector3D;
 import java.util.Random;
 
@@ -21,49 +22,25 @@ public class RockManager extends Component {
 
     @Override
     public void update(double dt) {
-        /*if(rockQuantity != 1)
-            System.out.println("ilosc kamieni " + rockQuantity);*/
-        /*if(rockQuantity == 0)
-        {
-            rockQuantity++;
-            System.out.println("dodaje skale");
-            GameObject skala;
-            skala = createRock();
-            scene.bufferGameObject(skala);
-        }*/
     }
 
 
     public void createRock()
     {
-        Random rand = new Random();
-        int x = rand.nextInt(1000);
-        int y = rand.nextInt(800);
 
-        if(x > 300 && x < 600)
-        {
-            if(x < 450)
-            {
-                x = 300;
-            }
-            else
-            {
-                x = 600;
-            }
-        }
-        if(y > 300 && y < 600)
-        {
-            if(y < 450)
-            {
-                y = 300;
-            }
-            else
-            {
-                y = 600;
-            }
-        }
+
+        Vector3D centerOfScreen = new Vector3D(500, 400);
+        double rotation = (new Random()).nextInt(62) / 10.0;
+        Vector3D direction = SMath.rotatePoint(new Vector3D(1, 0), new Vector3D(0,0,1), rotation);
+        direction.normalize();
+        direction.multiply(200);
+
+        Vector3D rockPosition = Vector3D.add(centerOfScreen, direction);
+
+
+
         GameObject skala = new GameObject("SKALA");
-        skala.addComponent(new Transform(new Vector3D(x, y), 0, 5, false, false, new Vector3D(1,1,1)));
+        skala.addComponent(new Transform(rockPosition, 0, 5, false, false, new Vector3D(1,1,1)));
         skala.addComponent(new MeshFilter(new Mesh(MeshManager.SKALA_1)));
         skala.addComponent(new MeshRenderer(Color.ORANGE, 1f));
         skala.addComponent(new AngularDynamics(0.1, 0));
@@ -76,8 +53,6 @@ public class RockManager extends Component {
         shooted.rockManager = this;
         scene.bufferGameObject(skala);
         rockQuantity++;
-        //System.out.println("ilosc " + rockQuantity);
-
     }
 
     public void removeRock()

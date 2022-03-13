@@ -15,6 +15,7 @@ public class Asteroidy {
         RockManager rockManager = new RockManager();
         GoRockManager.addComponent(rockManager);
 
+       // Vector3D deltaPolozenia = new Vector3D(-25, -50);
         Vector3D deltaPolozenia = new Vector3D(50, 50);
 
         GameObject statek = new GameObject("STATEK");

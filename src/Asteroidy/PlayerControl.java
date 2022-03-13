@@ -138,7 +138,7 @@ public class PlayerControl extends Component {
         pocisk.addComponent(new MeshFilter(Mesh.QUAD));
         pocisk.addComponent(new MeshRenderer(Color.GRAY, 1f));
         pocisk.addComponent(new AngularDynamics(0, 0));
-        pocisk.addComponent(new LinearDynamics(speed.multiply(50), new Vector3D()));
+        pocisk.addComponent(new LinearDynamics(speed.multiply(70), new Vector3D()));
         pocisk.addComponent(new MeshCollider(Mesh.QUAD));
 
         return pocisk;

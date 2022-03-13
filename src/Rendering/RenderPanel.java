@@ -19,7 +19,7 @@ public class RenderPanel extends JPanel implements KeyListener, MouseMotionListe
     public RenderPanel(Scene scene){
         super();
 
-        setBackground(new Color(44, 52, 52));
+        setBackground(new Color(34, 42, 42));
         setLayout(null);
         setFocusable(true);
         addKeyListener(this);
@@ -41,11 +41,11 @@ public class RenderPanel extends JPanel implements KeyListener, MouseMotionListe
                 renderMesh(g, meshRenderer);
 
         }
-        //Graphics2D g2d = (Graphics2D) g;
-        //String score = "Score: " + Shooted.zbiteSkaly;
-        //g2d.setFont(new Font(null, Font.BOLD, 26));
-        //g2d.setColor(Color.white);
-       // g2d.drawString(score, 10, 20);
+        Graphics2D g2d = (Graphics2D) g;
+        String score = "Score: " + Shooted.zbiteSkaly;
+        g2d.setFont(new Font(null, Font.BOLD, 26));
+        g2d.setColor(Color.white);
+        g2d.drawString(score, 10, 20);
     }
 
     private void renderMesh(Graphics g, MeshRenderer meshRenderer) {
@@ -81,7 +81,6 @@ public class RenderPanel extends JPanel implements KeyListener, MouseMotionListe
 
     @Override
     public void mousePressed(MouseEvent e) {
-        System.out.println(e.getButton());
         Input.setKeyPressed(e.getButton());
     }
 
