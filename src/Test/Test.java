@@ -1,4 +1,5 @@
-import Asteroidy.MeshManager;
+package Test;
+
 import Colliders.Rigidbody;
 import Components.*;
 import EngineCore.GameObject;
@@ -57,7 +58,6 @@ public class Test {
         sciana1.addComponent(new LinearDynamics(new Vector3D(0,0), new Vector3D()));
         sciana1.addComponent(new Rigidbody(0, 0.000001, new PhysicMaterial(0.3,0.3,0.3)));
 
-
         GameObject sciana2 = new GameObject("SCIANA OBROTOWA2");
         sciana2.addComponent(new Transform(new Vector3D(400,450), -0.2, 5, true, true, new Vector3D(2,0.3,1)));
         sciana2.addComponent(new MeshFilter(Mesh.QUAD));
@@ -86,7 +86,6 @@ public class Test {
         scene.addGameObject(sciana3);
         scene.addGameObject(sciana4);
         scene.addGameObject(sciana5);
-
 
         ScarusEngine scarusEngine = new ScarusEngine(scene);
         RenderEngine renderEngine = new RenderEngine(scene);
